@@ -19,7 +19,9 @@ acs_vars<-c(#"B01001_001E",
             "DP03_0062E", "DP02_0059E","DP02_0060E","DP02_0061E","DP02_0062E", "DP02_0063E", "DP02_0067E",
             "DP05_0032E", "DP05_0033E","DP05_0034E", "DP05_0039E", "DP05_0047E", 
             "DP02_0112E", "DP02_0113E", "DP02_0114E")
-#######   Example call for data profiles  #########
+
+
+#######  call for data profiles  #########
 #### cannot make a call to different API's at same time (ie different prefixes of variables)
 bos_acs12<-get_acs(
   geography = "tract", # size of municipalities to zoom in on
@@ -44,34 +46,47 @@ bos_acs12_pop<-get_acs(
 bos_acs12<-bos_acs12_pop%>%
   select(-NAME)%>%
   left_join(bos_acs12, by = "GEOID")
+
 ##### getting 2019 data
-bos_acs19<-get_acs(
+bos_acs18<-get_acs(
   geography = "tract", 
   variables = acs_vars,
   state = 'MA',
   county = 'Suffolk', 
-  year=2012,
+  year=2018,
   geometry = T, 
   survey = "acs5",
   output = "wide"
 )
 
-bos_acs19_pop<-get_acs(
+bos_acs18_pop<-get_acs(
   geography = "tract",
   variables = "B01001_001E",
   state = 'MA',
   county = 'Suffolk',
-  year=2019,
+  year=2018,
   survey = "acs5",
   output = "wide"
 )
 
-bos_acs19<-bos_acs19_pop%>%
+bos_acs18<-bos_acs18_pop%>%
   select(-NAME)%>%
-  left_join(bos_acs19, by = "GEOID")
+  left_join(bos_acs18, by = "GEOID")
+
+################################
+## TODO: convert 2012 $ into 2018 $ (inflation)
+##       meaningful names for variable
+##       merge tables with variable for year
 
 
 
+##########################################################################
+#######   General EDA Visualization of census tracts
+##########################################################################
+
+tm_shape(bos_acs19)+
+  tm_fill(col = percentEngHome,
+          palette = "Greens")
 
 
 
