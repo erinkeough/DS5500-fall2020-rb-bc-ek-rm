@@ -40,14 +40,17 @@ bos_acs12_pop<-get_acs(
   state = 'MA',
   county = 'Suffolk', 
   year=2012,
-  geometry = T,
+  #geometry = T,
   survey = "acs5", 
   output = "wide"
 )
 
-bos_acs12<-bos_acs12_pop%>%
+bos_acs12<-bos_acs12%>%
   select(-NAME)%>%
-  left_join(bos_acs12, by = "GEOID")
+  left_join(bos_acs12_pop, by = "GEOID")%>%
+  mutate(adjMHI = DP03_0062E*1.0935)
+
+
 
 ##### getting 2019 data
 bos_acs18<-get_acs(
@@ -71,9 +74,9 @@ bos_acs18_pop<-get_acs(
   output = "wide"
 )
 
-bos_acs18<-bos_acs18_pop%>%
+bos_acs18<-bos_acs18%>%
   select(-NAME)%>%
-  left_join(bos_acs18, by = "GEOID")
+  left_join(bos_acs18_pop, by = "GEOID")
 
 ################################
 ## TODO: convert 2012 $ into 2018 $ (inflation)
@@ -86,6 +89,23 @@ bos_acs18<-bos_acs18_pop%>%
 ##########################################################################
 #######   General EDA Visualization of census tracts
 ##########################################################################
+
+tm_shape(bos_acs18)+
+  tm_fill(col = "DP03_0062E",
+          palette = "Greens",
+          style = 'jenks',
+          title = "Median HH\nIncome '18")+
+  tm_borders(col = "darkgray")
+
+
+tm_shape(bos_acs12)+
+  tm_fill(col = "adjMHI",
+          palette = "Blues",
+          style = 'jenks',
+          title = "Median HH\nIncome '12")+
+  tm_borders(col = "darkgray")
+
+
 
 ### Smaller tables for visualization
 # Med HH income '18
