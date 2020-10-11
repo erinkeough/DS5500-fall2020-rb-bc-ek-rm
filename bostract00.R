@@ -29,3 +29,6 @@ bos00<-bos00%>%
   select(-tract)
 
 #write_csv(bos00, "bos_2000.csv")
+
+### tract 000301, 000302 is combined into 000300
+

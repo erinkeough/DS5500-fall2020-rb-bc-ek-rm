@@ -45,13 +45,16 @@ bos_acs10_pop<-get_acs(
   output = "wide"
 )
 
-bos_acs10<-bos_acs10%>%
+bos10<-bos_acs10%>%
   select(-NAME)%>%
   left_join(bos_acs10_pop, by = "GEOID")%>%
   mutate(adjMHI = DP03_0062E*1.0935,
          percEng = DP02_0111PE, 
-         percWhite = 100*DP05_0032E/B01001_001E)
-bos_acs10<-bos_acs10%>%mutate(GEOID = str_remove(bos_acs10$GEOID, "25025"))
+         percWhite = 100*DP05_0032E/B01001_001E)%>%
+  mutate(GEOID = str_remove(bos_acs10$GEOID, "25025"))%>%
+  filter(!str_detect(GEOID, "^9"))
+
+
 
 #write_csv(bos_acs10, "bos_2010.csv")
 
