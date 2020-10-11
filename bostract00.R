@@ -19,5 +19,8 @@ bostract00<-bostract00%>%
          med_income90 = str_remove_all(med_income90, "[\\$\\,]"))
 rm(bos001, bos002)
 
+bos00<-bos00%>%
+  mutate(GEOID = str_pad(as.character(tract),width = 6, side = "right", pad ="0"))%>%
+  select(-tract)
 
-#write_csv(bostract00, "bos_2000.csv")
+#write_csv(bos00, "bos_2000.csv")
