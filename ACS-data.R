@@ -53,6 +53,7 @@ bos_acs10<-bos_acs10%>%
          percWhite = 100*DP05_0032E/B01001_001E)
 bos_acs10<-bos_acs10%>%mutate(GEOID = str_remove(bos_acs10$GEOID, "25025"))
 
+#write_csv(bos_acs10, "bos_2010.csv")
 
 ##### getting 2019 data
 bos_acs18<-get_acs(
