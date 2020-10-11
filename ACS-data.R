@@ -7,7 +7,7 @@ census_api_key("YOUR API KEY HERE", install = T)
 
 #### Loads a table of variables for the American Community Survey of a certain year
 vacs19<-load_variables(2019, "acs1/profile")
-vacs13<-load_variables(2013, "acs1/profile")
+vacs13<-load_variables(2010, "acs1/profile")
 
 bos_long<--71.057083
 bos_lat<-42.361145
@@ -24,34 +24,34 @@ acs_vars<-c(#"B01001_001E",
 
 #######  call for data profiles  #########
 #### cannot make a call to different API's at same time (ie different prefixes of variables)
-bos_acs12<-get_acs(
+bos_acs10<-get_acs(
   geography = "tract", # size of municipalities to zoom in on
   variables = acs_vars,
   state = 'MA', # optional: State 25 is MA
   county = 'Suffolk', # Suffolk county is '025'
-  year=2012,
+  year=2010,
   geometry = T, # for map visualizations
   survey = "acs5", # survey you are choosing from (also supports 'acs5')
   output = "wide"
 )
-bos_acs12_pop<-get_acs(
+bos_acs10_pop<-get_acs(
   geography = "tract", 
   variables = "B01001_001E",
   state = 'MA',
   county = 'Suffolk', 
-  year=2012,
+  year=2010,
   #geometry = T,
   survey = "acs5", 
   output = "wide"
 )
 
-bos_acs12<-bos_acs12%>%
+bos_acs10<-bos_acs10%>%
   select(-NAME)%>%
-  left_join(bos_acs12_pop, by = "GEOID")%>%
+  left_join(bos_acs10_pop, by = "GEOID")%>%
   mutate(adjMHI = DP03_0062E*1.0935,
          percEng = DP02_0111PE, 
          percWhite = 100*DP05_0032E/B01001_001E)
-
+bos_acs10<-bos_acs10%>%mutate(GEOID = str_remove(bos_acs10$GEOID, "25025"))
 
 
 ##### getting 2019 data
