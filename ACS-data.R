@@ -49,8 +49,8 @@ bos10<-bos_acs10%>%
   select(-NAME)%>%
   left_join(bos_acs10_pop, by = "GEOID")%>%
   mutate(adjMHI = DP03_0062E*1.0935,
-         percEng = DP02_0111PE, 
-         percWhite = 100*DP05_0032E/B01001_001E)%>%
+         percEng_10 = DP02_0111PE, 
+         percWhite_10 = 100*DP05_0032E/B01001_001E)%>%
   mutate(GEOID = str_remove(bos_acs10$GEOID, "25025"))%>%
   filter(!str_detect(GEOID, "^9"))
 
@@ -63,10 +63,10 @@ bos10<-bos_acs10%>%
 #   "DP05_0032E", "DP05_0033E","DP05_0034E", "DP05_0039E", "DP05_0047E", 
 #   "DP02_0111PE", "DP02_0113E", "DP02_0114E")
 bos10_trim<-bos10%>%
-  mutate(tot_pop = B01001_001E, 
-         med_income = DP03_0062E, ed_hs = DP02_0059E+DP02_0060E+DP02_0061E,
-         rc_white =DP05_0032E, lang_eng = DP02_0111PE)%>%
-  select(tot_pop, med_income, ed_hs, rc_white, lang_eng, percEng, percWhite)
+  mutate(tot_pop_10 = B01001_001E, 
+         med_income_10 = DP03_0062E, ed_hs_10 = DP02_0059E+DP02_0060E+DP02_0061E,
+         rc_white_10 =DP05_0032E, lang_eng_10 = DP02_0111PE)%>%
+  select(GEOID, tot_pop_10, med_income_10, ed_hs_10, rc_white_10, lang_eng_10, percEng_10, percWhite_10)
   
 
 write_csv(bos10_trim, "census-csv/bos_2010_trim.csv")
