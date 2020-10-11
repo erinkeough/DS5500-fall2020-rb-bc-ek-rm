@@ -29,4 +29,11 @@ bos_90<-tract90%>%
                               ed_ba = sum(P0570006),
                               ed_grad = sum(P0570007),
                               med_inc = mean(P080A001))
+##  Convert TRACT to 6-digit tract GEOID excluding State and county prefix
+bos_90<-bos_90%>%mutate(GEOID = str_remove_all(TRACT, "^25025|\\."))%>%
+  mutate(GEOID = str_pad(GEOID, width = 6, side = "right", pad="0"))%>%
+  select(-TRACT)
 
+bos_90<-bos_90%>%select(-TRACT)
+
+#write_csv(bos_90, "bos_90.csv")
