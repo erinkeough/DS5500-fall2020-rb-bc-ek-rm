@@ -1,0 +1,11 @@
+---
+title: "Gentrified Boston - SML Methods"
+author: "Rebecca Brent"
+output: html_notebook
+---
+
+```{r}
+#BCD stands for Boston Census Data
+BCD <- read.csv("~\census-csv\bos_all.csv")
+
+```
