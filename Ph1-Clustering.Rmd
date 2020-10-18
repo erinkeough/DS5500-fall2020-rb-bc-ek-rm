@@ -1,0 +1,290 @@
+---
+title: "DS 5500 Capstone EDA"
+author: "Erin Keough"
+date: "10/2/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(cluster)
+library(factoextra)
+library(dplyr)
+```
+
+
+
+# K-means Clustering
+
+```{r Preparing, message=FALSE, warning=FALSE}
+
+bos <- read_csv("bos_all.csv")
+#head(bos)
+
+# Removing rows with missing data --> 119 obs of 19 variables
+tempbos <- na.omit(bos)
+
+# Prepping the data:
+locations <- tempbos[, c(4, 13)] # Retain location details & GEOID
+vars <- tempbos[, c(1:3, 5:12, 14:19)] # Extract numeric data
+rownames(vars) <- locations$GEOID # Rename rows --> GEOID
+
+# Standardization:
+vars_scaled <- scale(vars)
+#head(vars_scaled)
+
+```
+
+
+```{r kMeans}
+
+# Correlation matrix:
+fviz_dist(get_dist(vars_scaled), gradient = list(low = "cyan3", 
+                                                 mid = "white", 
+                                                 high = "coral1"))
+
+# ###################
+# K-means clustering
+# ###################
+k2 <- kmeans(vars_scaled, centers = 2, nstart = 25)
+k3 <- kmeans(vars_scaled, centers = 3, nstart = 25)
+k4 <- kmeans(vars_scaled, centers = 4, nstart = 25)
+k5 <- kmeans(vars_scaled, centers = 5, nstart = 25)
+
+plotk2 <- fviz_cluster(k2, data = vars_scaled, geom = "point") +
+  ggtitle("k = 2") + theme(plot.title = element_text(hjust = 0.5))
+plotk3 <- fviz_cluster(k3, data = vars_scaled, geom = "point") +
+  ggtitle("k = 3") + theme(plot.title = element_text(hjust = 0.5))
+plotk4 <- fviz_cluster(k4, data = vars_scaled, geom = "point") +
+  ggtitle("k = 4") + theme(plot.title = element_text(hjust = 0.5))
+plotk5 <- fviz_cluster(k5, data = vars_scaled, geom = "point") +
+  ggtitle("k = 5") + theme(plot.title = element_text(hjust = 0.5))
+
+library(gridExtra)
+grid.arrange(plotk2, plotk3, plotk4, plotk5, nrow = 2)
+
+```
+
+
+# Determining the optimal number of clusters
+
+## Elbow Method
+
+Here, we can compute the optimal number of clusters following these steps:
+  1. Performing k-means on the data with varying numbers of clusters, k
+  2. Calculate the total within-cluster sum of squares for each k
+  3. Plot the curve of within-cluster sum of squares based on k
+
+The optimal number of clusters is indicated on the graph by the "knee" of the plot, or the point where the reduction in WSS becomes less dramatic.
+
+
+```{r Elbow}
+
+set.seed(1)
+
+# Function to compute the total within-cluster sum of squares:
+wss <- function(k) {
+  kmeans(vars_scaled, centers = k, nstart = 25)$tot.withinss
+}
+
+# Compute and plot the within-cluster sum of squares for k = 1 to 15:
+kvals <- 1:15
+# Compute WSS for 2 to 15 clusters by mapping the defined WSS function:
+wssvals <- map_dbl(kvals, wss)
+
+df <- data.frame(kvals, wssvals)
+
+# Plot the results:
+ggplot(df) +
+  geom_point(aes(kvals, wssvals), color = "darkcyan", size = 2) +
+  geom_line(aes(kvals, wssvals), color = "gray30") +
+  labs(x = "Number of Clusters", y = "Total WSS",
+       title = "Total Within-cluster Sum of Squares 
+based on Number of Clusters") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+# ### This function apparently does the same thing as the above code:
+
+fviz_nbclust(vars_scaled, kmeans, method = "wss") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+This method gave us some insights, but it could be argued that either 3 or 5 clusters could be used with our data for the best results, so we'll try some other methods to be sure.
+
+
+## Average Silhouette Method
+
+This method measures the the quality of the clustering by seeing how well each object lies within its cluster. To do so, we look for the number of clusters that maximizes the average silhouette over a range of possible values for k.
+
+
+```{r avgSilhouette}
+
+fviz_nbclust(vars_scaled, kmeans, method = "silhouette") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+This seems to confirm that 3 clusters is optimal for performing clustering on our data, but to be certain, I will look into another determination method.
+
+
+## Gap Statistic Method
+
+This method compares the total intracluster variation for different values of k with their expected values under null reference distribution of the data, or the distribution with no obvious clustering.
+
+```{r gapStat}
+
+set.seed(1)
+
+# Compute gap statistics
+gap <- clusGap(vars_scaled, FUN = kmeans, nstart = 25, K.max = 10, B = 50)
+
+# Plot the results:
+fviz_gap_stat(gap) + theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Under the circumstances of our data, this is clearly an unreliable approach to determining the optimal number of clusters. With the previous two methods suggesting 3 clusters, we will proceed with k = 3.
+
+
+```{r clusterStats}
+
+fviz_cluster(k3, data = vars_scaled, geom = "point") +
+  ggtitle("k = 3") + theme(plot.title = element_text(hjust = 0.5))
+
+# Inter-cluster means for all variables in the non-scaled data:
+vars %>%
+  mutate(Cluster = k3$cluster) %>%
+  group_by(Cluster) %>%
+  summarise_all("mean")
+
+```
+
+
+# Next steps: k-means based on Census year
+
+I will now separate the data based on which year of the Census survey the data is based on in order to examine the differences in clusters over time.
+
+
+## Gathering the data
+
+```{r Prep2}
+
+# Data by decade:
+d90 <- tempbos[, c(14:19)]
+d00 <- tempbos[, c(1:3, 5)]
+d10 <- tempbos[, c(6:12)]
+
+# Name rows by GEOID:
+rownames(d90) <- locations$GEOID
+rownames(d00) <- locations$GEOID
+rownames(d10) <- locations$GEOID
+
+# Scale data:
+d90scaled <- scale(d90)
+d00scaled <- scale(d00)
+d10scaled <- scale(d10)
+
+```
+
+
+## Visualize clusters over time
+
+I'll start by assuming the number of optimal clusters remains to be 3.
+
+```{r}
+
+k3d90 <- kmeans(d90scaled, centers = 3, nstart = 25)
+k3d00 <- kmeans(d00scaled, centers = 3, nstart = 25)
+k3d10 <- kmeans(d10scaled, centers = 3, nstart = 25)
+
+plot90 <- fviz_cluster(k3d90, data = d90scaled, geom = "point") +
+  ggtitle("1990 Data with k = 3 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+plot00 <- fviz_cluster(k3d00, data = d00scaled, geom = "point") +
+  ggtitle("2000 Data with k = 3 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+plot10 <- fviz_cluster(k3d10, data = d10scaled, geom = "point") +
+  ggtitle("2010 Data with k = 3 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+grid.arrange(plot90, plot00, plot10, nrow = 1)
+
+```
+
+There seems to be a fairly significant difference among the clusters from 1990 to 2010, so we will have to look into what factors are attributed to this shift.
+
+
+# Hierarchical Clustering
+
+```{r}
+
+# 1990 
+dist90 <- dist(d90scaled)
+hc90 <- hclust(dist90)
+plot(hc90, cex = 0.65)
+
+# 2000 
+dist00 <- dist(d00scaled)
+hc00 <- hclust(dist00)
+plot(hc00, cex = 0.65)
+
+# 2010 
+dist10 <- dist(d10scaled)
+hc10 <- hclust(dist10)
+plot(hc10, cex = 0.65)
+
+```
+
+
+
+# Plotting clusters in Boston geography
+
+```{r}
+
+library(ggmap)
+Boston <- get_map(location = "Boston")
+ggmap(Boston)
+
+tm_shape(bos_acs18)+
+  tm_fill(col = "DP03_0062E",
+          palette = "Greens",
+          style = 'jenks',
+          title = "Median HH\nIncome '18")+
+  tm_borders(col = "darkgray")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
