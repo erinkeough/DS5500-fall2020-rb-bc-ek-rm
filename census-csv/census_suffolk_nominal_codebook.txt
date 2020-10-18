@@ -1,0 +1,1291 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0003_ts_nominal_tract'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Geographic Integration Methods
+    - Source Data
+    - Citation and Use
+ 
+Detailed notes on time series design and comparability are available at: 
+    https://www.nhgis.org/sites/www.nhgis.org/files/nhgis_time_series_tables.pdf 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Time series layout:     Time varies by column
+Geographic level:       Census Tract (by State--County)
+Geographic integration: Nominal
+Measurement times:      1970, 1980, 1990, 2000, 2008-2012
+
+!WARNING! In a "Time varies by column" layout, each row provides statistics
+          from multiple censuses for areas that had a matching code across
+          time. For the Census Tract geographic level, matching codes may
+          refer to distinctly different areas in different censuses. We
+          strongly recommend checking GIS files to determine the geographic
+          consistency of your areas of interest for your period of interest.
+ 
+Tables:
+ 
+1. Persons 25 Years and Over by Educational Attainment [7]
+   Years: 1990, 2000, 2008-2012
+   Code:  B85
+ 
+2. Persons 18 Years and Over by Educational Attainment [7]
+   Years: 1990, 2000, 2008-2012
+   Code:  B87
+ 
+3. Persons 16 Years and Over by Labor Force and Employment Status [6]
+   Years: 1970, 1980, 1990, 2000, 2008-2012
+   Code:  B84
+ 
+4. Households by Income in Previous Year [15]
+   Years: 1990, 2000, 2008-2012
+   Code:  B71
+ 
+5. Median Household Income in Previous Year
+   Years: 1980, 1990, 2000, 2008-2012
+   Code:  B79
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        NHGISCODE:   NHGIS Integrated Geographic Unit Code
+        GJOIN1970:   GIS Join Match Code, 1970
+        GJOIN1980:   GIS Join Match Code, 1980
+        GJOIN1990:   GIS Join Match Code, 1990
+        GJOIN2000:   GIS Join Match Code, 2000
+        GJOIN2012:   GIS Join Match Code, 2012
+        STATE:       NHGIS Integrated State Name
+        STATEFP:     FIPS State Code
+        STATENH:     NHGIS Integrated State Code
+        COUNTY:      NHGIS Integrated County Name
+        COUNTYFP:    FIPS County Code
+        COUNTYNH:    NHGIS Integrated County Code
+        TRACTA:      NHGIS Integrated Census Tract Code
+        NAME1970:    Area Name, 1970
+        NAME1980:    Area Name, 1980
+        NAME1990:    Area Name, 1990
+        NAME2000:    Area Name, 2000
+        NAME2012:    Area Name, 2012
+ 
+Table 1: (B85) Persons 25 Years and Over by Educational Attainment [7]
+    Time series AA: Persons: 25 years and over ~ Less than 9th grade
+        B85AA1990:   1990: Persons: 25 years and over ~ Less than 9th grade
+        B85AA2000:   2000: Persons: 25 years and over ~ Less than 9th grade
+        B85AA125:    2008-2012: Persons: 25 years and over ~ Less than 9th grade
+        B85AA125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ Less than 9th grade
+    Time series AB: Persons: 25 years and over ~ 9th to 12th grade, no diploma
+        B85AB1990:   1990: Persons: 25 years and over ~ 9th to 12th grade, no diploma
+        B85AB2000:   2000: Persons: 25 years and over ~ 9th to 12th grade, no diploma
+        B85AB125:    2008-2012: Persons: 25 years and over ~ 9th to 12th grade, no diploma
+        B85AB125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ 9th to 12th grade, no diploma
+    Time series AC: Persons: 25 years and over ~ High school graduate, GED, or alternative
+        B85AC1990:   1990: Persons: 25 years and over ~ High school graduate, GED, or alternative
+        B85AC2000:   2000: Persons: 25 years and over ~ High school graduate, GED, or alternative
+        B85AC125:    2008-2012: Persons: 25 years and over ~ High school graduate, GED, or alternative
+        B85AC125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ High school graduate, GED, or alternative
+    Time series AD: Persons: 25 years and over ~ Some college, no degree
+        B85AD1990:   1990: Persons: 25 years and over ~ Some college, no degree
+        B85AD2000:   2000: Persons: 25 years and over ~ Some college, no degree
+        B85AD125:    2008-2012: Persons: 25 years and over ~ Some college, no degree
+        B85AD125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ Some college, no degree
+    Time series AE: Persons: 25 years and over ~ Associate's degree
+        B85AE1990:   1990: Persons: 25 years and over ~ Associate's degree
+        B85AE2000:   2000: Persons: 25 years and over ~ Associate's degree
+        B85AE125:    2008-2012: Persons: 25 years and over ~ Associate's degree
+        B85AE125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ Associate's degree
+    Time series AF: Persons: 25 years and over ~ Bachelor's degree
+        B85AF1990:   1990: Persons: 25 years and over ~ Bachelor's degree
+        B85AF2000:   2000: Persons: 25 years and over ~ Bachelor's degree
+        B85AF125:    2008-2012: Persons: 25 years and over ~ Bachelor's degree
+        B85AF125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ Bachelor's degree
+    Time series AG: Persons: 25 years and over ~ Graduate or professional degree
+        B85AG1990:   1990: Persons: 25 years and over ~ Graduate or professional degree
+        B85AG2000:   2000: Persons: 25 years and over ~ Graduate or professional degree
+        B85AG125:    2008-2012: Persons: 25 years and over ~ Graduate or professional degree
+        B85AG125M:   Margin of error: 2008-2012: Persons: 25 years and over ~ Graduate or professional degree
+ 
+Table 2: (B87) Persons 18 Years and Over by Educational Attainment [7]
+    Time series AA: Persons: 18 years and over ~ Less than 9th grade
+        B87AA1990:   1990: Persons: 18 years and over ~ Less than 9th grade
+        B87AA2000:   2000: Persons: 18 years and over ~ Less than 9th grade
+        B87AA125:    2008-2012: Persons: 18 years and over ~ Less than 9th grade
+        B87AA125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ Less than 9th grade
+    Time series AB: Persons: 18 years and over ~ 9th to 12th grade, no diploma
+        B87AB1990:   1990: Persons: 18 years and over ~ 9th to 12th grade, no diploma
+        B87AB2000:   2000: Persons: 18 years and over ~ 9th to 12th grade, no diploma
+        B87AB125:    2008-2012: Persons: 18 years and over ~ 9th to 12th grade, no diploma
+        B87AB125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ 9th to 12th grade, no diploma
+    Time series AC: Persons: 18 years and over ~ High school graduate, GED, or alternative
+        B87AC1990:   1990: Persons: 18 years and over ~ High school graduate, GED, or alternative
+        B87AC2000:   2000: Persons: 18 years and over ~ High school graduate, GED, or alternative
+        B87AC125:    2008-2012: Persons: 18 years and over ~ High school graduate, GED, or alternative
+        B87AC125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ High school graduate, GED, or alternative
+    Time series AD: Persons: 18 years and over ~ Some college, no degree
+        B87AD1990:   1990: Persons: 18 years and over ~ Some college, no degree
+        B87AD2000:   2000: Persons: 18 years and over ~ Some college, no degree
+        B87AD125:    2008-2012: Persons: 18 years and over ~ Some college, no degree
+        B87AD125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ Some college, no degree
+    Time series AE: Persons: 18 years and over ~ Associate degree
+        B87AE1990:   1990: Persons: 18 years and over ~ Associate degree
+        B87AE2000:   2000: Persons: 18 years and over ~ Associate degree
+        B87AE125:    2008-2012: Persons: 18 years and over ~ Associate degree
+        B87AE125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ Associate degree
+    Time series AF: Persons: 18 years and over ~ Bachelor's degree
+        B87AF1990:   1990: Persons: 18 years and over ~ Bachelor's degree
+        B87AF2000:   2000: Persons: 18 years and over ~ Bachelor's degree
+        B87AF125:    2008-2012: Persons: 18 years and over ~ Bachelor's degree
+        B87AF125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ Bachelor's degree
+    Time series AG: Persons: 18 years and over ~ Graduate or professional degree
+        B87AG1990:   1990: Persons: 18 years and over ~ Graduate or professional degree
+        B87AG2000:   2000: Persons: 18 years and over ~ Graduate or professional degree
+        B87AG125:    2008-2012: Persons: 18 years and over ~ Graduate or professional degree
+        B87AG125M:   Margin of error: 2008-2012: Persons: 18 years and over ~ Graduate or professional degree
+ 
+Table 3: (B84) Persons 16 Years and Over by Labor Force and Employment Status [6]
+    Time series AA: Persons: 16 years and over ~ In labor force
+        B84AA1970:   1970: Persons: 16 years and over ~ In labor force
+        B84AA1980:   1980: Persons: 16 years and over ~ In labor force
+        B84AA1990:   1990: Persons: 16 years and over ~ In labor force
+        B84AA2000:   2000: Persons: 16 years and over ~ In labor force
+        B84AA125:    2008-2012: Persons: 16 years and over ~ In labor force
+        B84AA125M:   Margin of error: 2008-2012: Persons: 16 years and over ~ In labor force
+    Time series AB: Persons: 16 years and over ~ In labor force--In Armed Forces
+        B84AB1970:   1970: Persons: 16 years and over ~ In labor force--In Armed Forces
+        B84AB1980:   1980: Persons: 16 years and over ~ In labor force--In Armed Forces
+        B84AB1990:   1990: Persons: 16 years and over ~ In labor force--In Armed Forces
+        B84AB2000:   2000: Persons: 16 years and over ~ In labor force--In Armed Forces
+        B84AB125:    2008-2012: Persons: 16 years and over ~ In labor force--In Armed Forces
+        B84AB125M:   Margin of error: 2008-2012: Persons: 16 years and over ~ In labor force--In Armed Forces
+    Time series AC: Persons: 16 years and over ~ In labor force--Civilian
+        B84AC1970:   1970: Persons: 16 years and over ~ In labor force--Civilian
+        B84AC1980:   1980: Persons: 16 years and over ~ In labor force--Civilian
+        B84AC1990:   1990: Persons: 16 years and over ~ In labor force--Civilian
+        B84AC2000:   2000: Persons: 16 years and over ~ In labor force--Civilian
+        B84AC125:    2008-2012: Persons: 16 years and over ~ In labor force--Civilian
+        B84AC125M:   Margin of error: 2008-2012: Persons: 16 years and over ~ In labor force--Civilian
+    Time series AD: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        B84AD1970:   1970: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        B84AD1980:   1980: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        B84AD1990:   1990: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        B84AD2000:   2000: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        B84AD125:    2008-2012: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        B84AD125M:   Margin of error: 2008-2012: Persons: 16 years and over ~ In labor force--Civilian--Employed
+    Time series AE: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        B84AE1970:   1970: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        B84AE1980:   1980: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        B84AE1990:   1990: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        B84AE2000:   2000: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        B84AE125:    2008-2012: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        B84AE125M:   Margin of error: 2008-2012: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+    Time series AF: Persons: 16 years and over ~ Not in labor force
+        B84AF1970:   1970: Persons: 16 years and over ~ Not in labor force
+        B84AF1980:   1980: Persons: 16 years and over ~ Not in labor force
+        B84AF1990:   1990: Persons: 16 years and over ~ Not in labor force
+        B84AF2000:   2000: Persons: 16 years and over ~ Not in labor force
+        B84AF125:    2008-2012: Persons: 16 years and over ~ Not in labor force
+        B84AF125M:   Margin of error: 2008-2012: Persons: 16 years and over ~ Not in labor force
+ 
+Table 4: (B71) Households by Income in Previous Year [15]
+    Time series AA: Households: Income less than $10,000
+        B71AA1990:   1990: Households: Income less than $10,000
+        B71AA2000:   2000: Households: Income less than $10,000
+        B71AA125:    2008-2012: Households: Income less than $10,000
+        B71AA125M:   Margin of error: 2008-2012: Households: Income less than $10,000
+    Time series AB: Households: Income $10,000 to $14,999
+        B71AB1990:   1990: Households: Income $10,000 to $14,999
+        B71AB2000:   2000: Households: Income $10,000 to $14,999
+        B71AB125:    2008-2012: Households: Income $10,000 to $14,999
+        B71AB125M:   Margin of error: 2008-2012: Households: Income $10,000 to $14,999
+    Time series AC: Households: Income $15,000 to $19,999
+        B71AC1990:   1990: Households: Income $15,000 to $19,999
+        B71AC2000:   2000: Households: Income $15,000 to $19,999
+        B71AC125:    2008-2012: Households: Income $15,000 to $19,999
+        B71AC125M:   Margin of error: 2008-2012: Households: Income $15,000 to $19,999
+    Time series AD: Households: Income $20,000 to $24,999
+        B71AD1990:   1990: Households: Income $20,000 to $24,999
+        B71AD2000:   2000: Households: Income $20,000 to $24,999
+        B71AD125:    2008-2012: Households: Income $20,000 to $24,999
+        B71AD125M:   Margin of error: 2008-2012: Households: Income $20,000 to $24,999
+    Time series AE: Households: Income $25,000 to $29,999
+        B71AE1990:   1990: Households: Income $25,000 to $29,999
+        B71AE2000:   2000: Households: Income $25,000 to $29,999
+        B71AE125:    2008-2012: Households: Income $25,000 to $29,999
+        B71AE125M:   Margin of error: 2008-2012: Households: Income $25,000 to $29,999
+    Time series AF: Households: Income $30,000 to $34,999
+        B71AF1990:   1990: Households: Income $30,000 to $34,999
+        B71AF2000:   2000: Households: Income $30,000 to $34,999
+        B71AF125:    2008-2012: Households: Income $30,000 to $34,999
+        B71AF125M:   Margin of error: 2008-2012: Households: Income $30,000 to $34,999
+    Time series AG: Households: Income $35,000 to $39,999
+        B71AG1990:   1990: Households: Income $35,000 to $39,999
+        B71AG2000:   2000: Households: Income $35,000 to $39,999
+        B71AG125:    2008-2012: Households: Income $35,000 to $39,999
+        B71AG125M:   Margin of error: 2008-2012: Households: Income $35,000 to $39,999
+    Time series AH: Households: Income $40,000 to $44,999
+        B71AH1990:   1990: Households: Income $40,000 to $44,999
+        B71AH2000:   2000: Households: Income $40,000 to $44,999
+        B71AH125:    2008-2012: Households: Income $40,000 to $44,999
+        B71AH125M:   Margin of error: 2008-2012: Households: Income $40,000 to $44,999
+    Time series AI: Households: Income $45,000 to $49,999
+        B71AI1990:   1990: Households: Income $45,000 to $49,999
+        B71AI2000:   2000: Households: Income $45,000 to $49,999
+        B71AI125:    2008-2012: Households: Income $45,000 to $49,999
+        B71AI125M:   Margin of error: 2008-2012: Households: Income $45,000 to $49,999
+    Time series AJ: Households: Income $50,000 to $59,999
+        B71AJ1990:   1990: Households: Income $50,000 to $59,999
+        B71AJ2000:   2000: Households: Income $50,000 to $59,999
+        B71AJ125:    2008-2012: Households: Income $50,000 to $59,999
+        B71AJ125M:   Margin of error: 2008-2012: Households: Income $50,000 to $59,999
+    Time series AK: Households: Income $60,000 to $74,999
+        B71AK1990:   1990: Households: Income $60,000 to $74,999
+        B71AK2000:   2000: Households: Income $60,000 to $74,999
+        B71AK125:    2008-2012: Households: Income $60,000 to $74,999
+        B71AK125M:   Margin of error: 2008-2012: Households: Income $60,000 to $74,999
+    Time series AL: Households: Income $75,000 to $99,999
+        B71AL1990:   1990: Households: Income $75,000 to $99,999
+        B71AL2000:   2000: Households: Income $75,000 to $99,999
+        B71AL125:    2008-2012: Households: Income $75,000 to $99,999
+        B71AL125M:   Margin of error: 2008-2012: Households: Income $75,000 to $99,999
+    Time series AM: Households: Income $100,000 to $124,999
+        B71AM1990:   1990: Households: Income $100,000 to $124,999
+        B71AM2000:   2000: Households: Income $100,000 to $124,999
+        B71AM125:    2008-2012: Households: Income $100,000 to $124,999
+        B71AM125M:   Margin of error: 2008-2012: Households: Income $100,000 to $124,999
+    Time series AN: Households: Income $125,000 to $149,999
+        B71AN1990:   1990: Households: Income $125,000 to $149,999
+        B71AN2000:   2000: Households: Income $125,000 to $149,999
+        B71AN125:    2008-2012: Households: Income $125,000 to $149,999
+        B71AN125M:   Margin of error: 2008-2012: Households: Income $125,000 to $149,999
+    Time series AO: Households: Income $150,000 or more
+        B71AO1990:   1990: Households: Income $150,000 or more
+        B71AO2000:   2000: Households: Income $150,000 or more
+        B71AO125:    2008-2012: Households: Income $150,000 or more
+        B71AO125M:   Margin of error: 2008-2012: Households: Income $150,000 or more
+ 
+Table 5: (B79) Median Household Income in Previous Year
+    Time series AA: Median income in previous year: Households
+        B79AA1980:   1980: Median income in previous year: Households
+        B79AA1990:   1990: Median income in previous year: Households
+        B79AA2000:   2000: Median income in previous year: Households
+        B79AA125:    2008-2012: Median income in previous year: Households
+        B79AA125M:   Margin of error: 2008-2012: Median income in previous year: Households
+ 
+--------------------------------------------------------------------------------
+Geographic Integration Methods
+--------------------------------------------------------------------------------
+ 
+Nominal Integration:
+
+    Nominally integrated tables link geographic units across time according to
+    their names and codes, disregarding any changes in unit boundaries. The
+    identified geographic units match those from each census source, so the
+    spatial definitions and total number of units may vary from one time to
+    another (e.g., a city may annex land, a tract may be split in two, a new
+    county may be created, etc.). The tables include data for a particular
+    geographic unit only at times when the unit's name or code was in use,
+    resulting in truncated time series for some areas.
+    
+    Users should be cautious when interpreting changes in nominally integrated
+    time series because a single unit code may refer to distinctly different
+    areas at different times. If you are uncertain whether any boundaries
+    changed in your areas of interest, we recommend inspecting NHGIS GIS files
+    to confirm. (NHGIS supplies GIS boundary files for all units and years in
+    nominally integrated time series *except* 1970 places and county
+    subdivisions.)
+    
+    Alternatively, for some topics and time periods, NHGIS provides
+    "geographically standardized" time series, which provide data from multiple
+    times for a single census's geographic units (e.g., 2000 and 2010 data for
+    2010 census units). A disadvantage of standardized time series is that, in
+    areas where source units do not nest perfectly within a unit of the standard
+    year (e.g., where a source 2000 unit intersects multiple 2010 units), NHGIS
+    applies interpolation to standardize the data, a process which may
+    occasionally produce substantial errors.
+
+Complete documentation on time series integration methods is available at:
+    https://www.nhgis.org/documentation/time-series
+ 
+--------------------------------------------------------------------------------
+Source Data
+--------------------------------------------------------------------------------
+ 
+Additional documentation on NHGIS data sources is available at:
+    https://www.nhgis.org/documentation/tabular-data
+
+Table 1: (B85) Persons 25 Years and Over by Educational Attainment [7]
+ 
+    Time series AA: Persons: 25 years and over ~ Less than 9th grade
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33001] Less than 9th grade
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT001] Male >> No schooling completed
+                        Variable: [GKT002] Male >> Nursery to 4th grade
+                        Variable: [GKT003] Male >> 5th and 6th grade
+                        Variable: [GKT004] Male >> 7th and 8th grade
+                        Variable: [GKT017] Female >> No schooling completed
+                        Variable: [GKT018] Female >> Nursery to 4th grade
+                        Variable: [GKT019] Female >> 5th and 6th grade
+                        Variable: [GKT020] Female >> 7th and 8th grade
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS002] No schooling completed
+                        Variable: [QUS003] Nursery school
+                        Variable: [QUS004] Kindergarten
+                        Variable: [QUS005] 1st grade
+                        Variable: [QUS006] 2nd grade
+                        Variable: [QUS007] 3rd grade
+                        Variable: [QUS008] 4th grade
+                        Variable: [QUS009] 5th grade
+                        Variable: [QUS010] 6th grade
+                        Variable: [QUS011] 7th grade
+                        Variable: [QUS012] 8th grade
+ 
+    Time series AB: Persons: 25 years and over ~ 9th to 12th grade, no diploma
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33002] 9th to 12th grade, no diploma
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT005] Male >> 9th grade
+                        Variable: [GKT006] Male >> 10th grade
+                        Variable: [GKT007] Male >> 11th grade
+                        Variable: [GKT008] Male >> 12th grade, no diploma
+                        Variable: [GKT021] Female >> 9th grade
+                        Variable: [GKT022] Female >> 10th grade
+                        Variable: [GKT023] Female >> 11th grade
+                        Variable: [GKT024] Female >> 12th grade, no diploma
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS013] 9th grade
+                        Variable: [QUS014] 10th grade
+                        Variable: [QUS015] 11th grade
+                        Variable: [QUS016] 12th grade, no diploma
+ 
+    Time series AC: Persons: 25 years and over ~ High school graduate, GED, or alternative
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33003] High school graduate (includes equivalency)
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT009] Male >> High school graduate (includes equivalency)
+                        Variable: [GKT025] Female >> High school graduate (includes equivalency)
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS017] Regular high school diploma
+                        Variable: [QUS018] GED or alternative credential
+ 
+    Time series AD: Persons: 25 years and over ~ Some college, no degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33004] Some college, no degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT010] Male >> Some college, less than 1 year
+                        Variable: [GKT011] Male >> Some college, 1 or more years, no degree
+                        Variable: [GKT026] Female >> Some college, less than 1 year
+                        Variable: [GKT027] Female >> Some college, 1 or more years, no degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS019] Some college, less than 1 year
+                        Variable: [QUS020] Some college, 1 or more years, no degree
+ 
+    Time series AE: Persons: 25 years and over ~ Associate's degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33005] Associate degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT012] Male >> Associate degree
+                        Variable: [GKT028] Female >> Associate degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS021] Associate's degree
+ 
+    Time series AF: Persons: 25 years and over ~ Bachelor's degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33006] Bachelor's degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT013] Male >> Bachelor's degree
+                        Variable: [GKT029] Female >> Bachelor's degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS022] Bachelor's degree
+ 
+    Time series AG: Persons: 25 years and over ~ Graduate or professional degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP57. Educational Attainment
+                    Universe: Persons 25 years and over
+                        Variable: [E33007] Graduate or professional degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP037C. Population 25 Years and Over by Sex by Educational Attainment
+                    Universe: Persons 25 Years and Over
+                        Variable: [GKT014] Male >> Master's degree
+                        Variable: [GKT015] Male >> Professional school degree
+                        Variable: [GKT016] Male >> Doctorate degree
+                        Variable: [GKT030] Female >> Master's degree
+                        Variable: [GKT031] Female >> Professional school degree
+                        Variable: [GKT032] Female >> Doctorate degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B15003. Educational Attainment for the Population 25 Years and Over
+                    Universe: Population 25 years and over
+                        Variable: [QUS023] Master's degree
+                        Variable: [QUS024] Professional school degree
+                        Variable: [QUS025] Doctorate degree
+ 
+ 
+Table 2: (B87) Persons 18 Years and Over by Educational Attainment [7]
+ 
+    Time series AA: Persons: 18 years and over ~ Less than 9th grade
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37001] Less than 9th grade
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5001] Male >> 18 to 24 years >> Less than 9th grade
+                        Variable: [GW5008] Male >> 25 to 34 years >> Less than 9th grade
+                        Variable: [GW5015] Male >> 35 to 44 years >> Less than 9th grade
+                        Variable: [GW5022] Male >> 45 to 64 years >> Less than 9th grade
+                        Variable: [GW5029] Male >> 65 years and over >> Less than 9th grade
+                        Variable: [GW5036] Female >> 18 to 24 years >> Less than 9th grade
+                        Variable: [GW5043] Female >> 25 to 34 years >> Less than 9th grade
+                        Variable: [GW5050] Female >> 35 to 44 years >> Less than 9th grade
+                        Variable: [GW5057] Female >> 45 to 64 years >> Less than 9th grade
+                        Variable: [GW5064] Female >> 65 years and over >> Less than 9th grade
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z004] Male: 18 to 24 years: Less than 9th grade
+                        Variable: [Q8Z012] Male: 25 to 34 years: Less than 9th grade
+                        Variable: [Q8Z020] Male: 35 to 44 years: Less than 9th grade
+                        Variable: [Q8Z028] Male: 45 to 64 years: Less than 9th grade
+                        Variable: [Q8Z036] Male: 65 years and over: Less than 9th grade
+                        Variable: [Q8Z045] Female: 18 to 24 years: Less than 9th grade
+                        Variable: [Q8Z053] Female: 25 to 34 years: Less than 9th grade
+                        Variable: [Q8Z061] Female: 35 to 44 years: Less than 9th grade
+                        Variable: [Q8Z069] Female: 45 to 64 years: Less than 9th grade
+                        Variable: [Q8Z077] Female: 65 years and over: Less than 9th grade
+ 
+    Time series AB: Persons: 18 years and over ~ 9th to 12th grade, no diploma
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37002] 9th to 12th grade, no diploma
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5002] Male >> 18 to 24 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5009] Male >> 25 to 34 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5016] Male >> 35 to 44 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5023] Male >> 45 to 64 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5030] Male >> 65 years and over >> 9th to 12th grade, no diploma
+                        Variable: [GW5037] Female >> 18 to 24 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5044] Female >> 25 to 34 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5051] Female >> 35 to 44 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5058] Female >> 45 to 64 years >> 9th to 12th grade, no diploma
+                        Variable: [GW5065] Female >> 65 years and over >> 9th to 12th grade, no diploma
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z005] Male: 18 to 24 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z013] Male: 25 to 34 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z021] Male: 35 to 44 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z029] Male: 45 to 64 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z037] Male: 65 years and over: 9th to 12th grade, no diploma
+                        Variable: [Q8Z046] Female: 18 to 24 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z054] Female: 25 to 34 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z062] Female: 35 to 44 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z070] Female: 45 to 64 years: 9th to 12th grade, no diploma
+                        Variable: [Q8Z078] Female: 65 years and over: 9th to 12th grade, no diploma
+ 
+    Time series AC: Persons: 18 years and over ~ High school graduate, GED, or alternative
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37003] High school graduate (includes equivalency)
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5003] Male >> 18 to 24 years >> High school graduate (includes equivalency)
+                        Variable: [GW5010] Male >> 25 to 34 years >> High school graduate (includes equivalency)
+                        Variable: [GW5017] Male >> 35 to 44 years >> High school graduate (includes equivalency)
+                        Variable: [GW5024] Male >> 45 to 64 years >> High school graduate (includes equivalency)
+                        Variable: [GW5031] Male >> 65 years and over >> High school graduate (includes equivalency)
+                        Variable: [GW5038] Female >> 18 to 24 years >> High school graduate (includes equivalency)
+                        Variable: [GW5045] Female >> 25 to 34 years >> High school graduate (includes equivalency)
+                        Variable: [GW5052] Female >> 35 to 44 years >> High school graduate (includes equivalency)
+                        Variable: [GW5059] Female >> 45 to 64 years >> High school graduate (includes equivalency)
+                        Variable: [GW5066] Female >> 65 years and over >> High school graduate (includes equivalency)
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z006] Male: 18 to 24 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z014] Male: 25 to 34 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z022] Male: 35 to 44 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z030] Male: 45 to 64 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z038] Male: 65 years and over: High school graduate, GED, or alternative
+                        Variable: [Q8Z047] Female: 18 to 24 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z055] Female: 25 to 34 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z063] Female: 35 to 44 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z071] Female: 45 to 64 years: High school graduate, GED, or alternative
+                        Variable: [Q8Z079] Female: 65 years and over: High school graduate, GED, or alternative
+ 
+    Time series AD: Persons: 18 years and over ~ Some college, no degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37004] Some college, no degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5004] Male >> 18 to 24 years >> Some college, no degree
+                        Variable: [GW5011] Male >> 25 to 34 years >> Some college, no degree
+                        Variable: [GW5018] Male >> 35 to 44 years >> Some college, no degree
+                        Variable: [GW5025] Male >> 45 to 64 years >> Some college, no degree
+                        Variable: [GW5032] Male >> 65 years and over >> Some college, no degree
+                        Variable: [GW5039] Female >> 18 to 24 years >> Some college, no degree
+                        Variable: [GW5046] Female >> 25 to 34 years >> Some college, no degree
+                        Variable: [GW5053] Female >> 35 to 44 years >> Some college, no degree
+                        Variable: [GW5060] Female >> 45 to 64 years >> Some college, no degree
+                        Variable: [GW5067] Female >> 65 years and over >> Some college, no degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z007] Male: 18 to 24 years: Some college, no degree
+                        Variable: [Q8Z015] Male: 25 to 34 years: Some college, no degree
+                        Variable: [Q8Z023] Male: 35 to 44 years: Some college, no degree
+                        Variable: [Q8Z031] Male: 45 to 64 years: Some college, no degree
+                        Variable: [Q8Z039] Male: 65 years and over: Some college, no degree
+                        Variable: [Q8Z048] Female: 18 to 24 years: Some college, no degree
+                        Variable: [Q8Z056] Female: 25 to 34 years: Some college, no degree
+                        Variable: [Q8Z064] Female: 35 to 44 years: Some college, no degree
+                        Variable: [Q8Z072] Female: 45 to 64 years: Some college, no degree
+                        Variable: [Q8Z080] Female: 65 years and over: Some college, no degree
+ 
+    Time series AE: Persons: 18 years and over ~ Associate degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37005] Associate degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5005] Male >> 18 to 24 years >> Associate degree
+                        Variable: [GW5012] Male >> 25 to 34 years >> Associate degree
+                        Variable: [GW5019] Male >> 35 to 44 years >> Associate degree
+                        Variable: [GW5026] Male >> 45 to 64 years >> Associate degree
+                        Variable: [GW5033] Male >> 65 years and over >> Associate degree
+                        Variable: [GW5040] Female >> 18 to 24 years >> Associate degree
+                        Variable: [GW5047] Female >> 25 to 34 years >> Associate degree
+                        Variable: [GW5054] Female >> 35 to 44 years >> Associate degree
+                        Variable: [GW5061] Female >> 45 to 64 years >> Associate degree
+                        Variable: [GW5068] Female >> 65 years and over >> Associate degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z008] Male: 18 to 24 years: Associate's degree
+                        Variable: [Q8Z016] Male: 25 to 34 years: Associate's degree
+                        Variable: [Q8Z024] Male: 35 to 44 years: Associate's degree
+                        Variable: [Q8Z032] Male: 45 to 64 years: Associate's degree
+                        Variable: [Q8Z040] Male: 65 years and over: Associate's degree
+                        Variable: [Q8Z049] Female: 18 to 24 years: Associate's degree
+                        Variable: [Q8Z057] Female: 25 to 34 years: Associate's degree
+                        Variable: [Q8Z065] Female: 35 to 44 years: Associate's degree
+                        Variable: [Q8Z073] Female: 45 to 64 years: Associate's degree
+                        Variable: [Q8Z081] Female: 65 years and over: Associate's degree
+ 
+    Time series AF: Persons: 18 years and over ~ Bachelor's degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37006] Bachelor's degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5006] Male >> 18 to 24 years >> Bachelor's degree
+                        Variable: [GW5013] Male >> 25 to 34 years >> Bachelor's degree
+                        Variable: [GW5020] Male >> 35 to 44 years >> Bachelor's degree
+                        Variable: [GW5027] Male >> 45 to 64 years >> Bachelor's degree
+                        Variable: [GW5034] Male >> 65 years and over >> Bachelor's degree
+                        Variable: [GW5041] Female >> 18 to 24 years >> Bachelor's degree
+                        Variable: [GW5048] Female >> 25 to 34 years >> Bachelor's degree
+                        Variable: [GW5055] Female >> 35 to 44 years >> Bachelor's degree
+                        Variable: [GW5062] Female >> 45 to 64 years >> Bachelor's degree
+                        Variable: [GW5069] Female >> 65 years and over >> Bachelor's degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z009] Male: 18 to 24 years: Bachelor's degree
+                        Variable: [Q8Z017] Male: 25 to 34 years: Bachelor's degree
+                        Variable: [Q8Z025] Male: 35 to 44 years: Bachelor's degree
+                        Variable: [Q8Z033] Male: 45 to 64 years: Bachelor's degree
+                        Variable: [Q8Z041] Male: 65 years and over: Bachelor's degree
+                        Variable: [Q8Z050] Female: 18 to 24 years: Bachelor's degree
+                        Variable: [Q8Z058] Female: 25 to 34 years: Bachelor's degree
+                        Variable: [Q8Z066] Female: 35 to 44 years: Bachelor's degree
+                        Variable: [Q8Z074] Female: 45 to 64 years: Bachelor's degree
+                        Variable: [Q8Z082] Female: 65 years and over: Bachelor's degree
+ 
+    Time series AG: Persons: 18 years and over ~ Graduate or professional degree
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP60. Educational Attainment
+                    Universe: Persons 18 years and over
+                        Variable: [E37007] Graduate or professional degree
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NPCT025B. Population 18 Years and Over by Sex by Age Groups by Educational Attainment
+                    Universe: Persons 18 Years and Over
+                        Variable: [GW5007] Male >> 18 to 24 years >> Graduate or professional degree
+                        Variable: [GW5014] Male >> 25 to 34 years >> Graduate or professional degree
+                        Variable: [GW5021] Male >> 35 to 44 years >> Graduate or professional degree
+                        Variable: [GW5028] Male >> 45 to 64 years >> Graduate or professional degree
+                        Variable: [GW5035] Male >> 65 years and over >> Graduate or professional degree
+                        Variable: [GW5042] Female >> 18 to 24 years >> Graduate or professional degree
+                        Variable: [GW5049] Female >> 25 to 34 years >> Graduate or professional degree
+                        Variable: [GW5056] Female >> 35 to 44 years >> Graduate or professional degree
+                        Variable: [GW5063] Female >> 45 to 64 years >> Graduate or professional degree
+                        Variable: [GW5070] Female >> 65 years and over >> Graduate or professional degree
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Tracts & Larger Areas]
+                Source table: B15001. Sex by Age by Educational Attainment for the Population 18 Years and Over
+                    Universe: Population 18 years and over
+                        Variable: [Q8Z010] Male: 18 to 24 years: Graduate or professional degree
+                        Variable: [Q8Z018] Male: 25 to 34 years: Graduate or professional degree
+                        Variable: [Q8Z026] Male: 35 to 44 years: Graduate or professional degree
+                        Variable: [Q8Z034] Male: 45 to 64 years: Graduate or professional degree
+                        Variable: [Q8Z042] Male: 65 years and over: Graduate or professional degree
+                        Variable: [Q8Z051] Female: 18 to 24 years: Graduate or professional degree
+                        Variable: [Q8Z059] Female: 25 to 34 years: Graduate or professional degree
+                        Variable: [Q8Z067] Female: 35 to 44 years: Graduate or professional degree
+                        Variable: [Q8Z075] Female: 45 to 64 years: Graduate or professional degree
+                        Variable: [Q8Z083] Female: 65 years and over: Graduate or professional degree
+ 
+ 
+Table 3: (B84) Persons 16 Years and Over by Labor Force and Employment Status [6]
+ 
+    Time series AA: Persons: 16 years and over ~ In labor force
+        Year: 1970
+            Source dataset: 1970 Census: Count 4Pb - Sample-Based Population Data with Race/Ethnicity Breakdown
+                Source table: NT54. Sex by Labor Force Status and Selected Characteristics
+                    Universe: Persons 16 Years and Over
+                        Variable: [C23001] Male >> In armed forces
+                        Variable: [C23002] Male >> In labor force: Employed
+                        Variable: [C23003] Male >> In labor force: Unemployed
+                        Variable: [C23010] Female >> In armed forces
+                        Variable: [C23011] Female >> In labor force: Employed
+                        Variable: [C23012] Female >> In labor force: Unemployed
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT55A. Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [DHX001] Male >> Labor force: Armed forces
+                        Variable: [DHX002] Male >> Labor force: Civilian labor force: Employed
+                        Variable: [DHX003] Male >> Labor force: Civilian labor force: Unemployed
+                        Variable: [DHX005] Female >> Labor force: Armed forces
+                        Variable: [DHX006] Female >> Labor force: Civilian labor force: Employed
+                        Variable: [DHX007] Female >> Labor force: Civilian labor force: Unemployed
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP70. Sex by Employment Status
+                    Universe: Persons 16 years and over
+                        Variable: [E4I001] Male >> In labor force: In Armed Forces
+                        Variable: [E4I002] Male >> In labor force: Civilian: Employed
+                        Variable: [E4I003] Male >> In labor force: Civilian: Unemployed
+                        Variable: [E4I005] Female >> In labor force: In Armed Forces
+                        Variable: [E4I006] Female >> In labor force: Civilian: Employed
+                        Variable: [E4I007] Female >> In labor force: Civilian: Unemployed
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP043C. Population 16 Years and Over by Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [GLP001] Male >> In labor force
+                        Variable: [GLP003] Female >> In labor force
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B23025. Employment Status for the Population 16 Years and Over
+                    Universe: Population 16 years and over
+                        Variable: [QXS002] In labor force
+ 
+    Time series AB: Persons: 16 years and over ~ In labor force--In Armed Forces
+        Year: 1970
+            Source dataset: 1970 Census: Count 4Pb - Sample-Based Population Data with Race/Ethnicity Breakdown
+                Source table: NT54. Sex by Labor Force Status and Selected Characteristics
+                    Universe: Persons 16 Years and Over
+                        Variable: [C23001] Male >> In armed forces
+                        Variable: [C23010] Female >> In armed forces
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT55A. Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [DHX001] Male >> Labor force: Armed forces
+                        Variable: [DHX005] Female >> Labor force: Armed forces
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP70. Sex by Employment Status
+                    Universe: Persons 16 years and over
+                        Variable: [E4I001] Male >> In labor force: In Armed Forces
+                        Variable: [E4I005] Female >> In labor force: In Armed Forces
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP043D. Population 16 Years and Over by Sex by Armed Forces Status
+                    Universe: Persons 16 Years and Over in Labor Force
+                        Variable: [GLQ001] Male >> In Armed Forces
+                        Variable: [GLQ003] Female >> In Armed Forces
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B23025. Employment Status for the Population 16 Years and Over
+                    Universe: Population 16 years and over
+                        Variable: [QXS006] In labor force: Armed Forces
+ 
+    Time series AC: Persons: 16 years and over ~ In labor force--Civilian
+        Year: 1970
+            Source dataset: 1970 Census: Count 4Pb - Sample-Based Population Data with Race/Ethnicity Breakdown
+                Source table: NT54. Sex by Labor Force Status and Selected Characteristics
+                    Universe: Persons 16 Years and Over
+                        Variable: [C23002] Male >> In labor force: Employed
+                        Variable: [C23003] Male >> In labor force: Unemployed
+                        Variable: [C23011] Female >> In labor force: Employed
+                        Variable: [C23012] Female >> In labor force: Unemployed
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT55A. Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [DHX002] Male >> Labor force: Civilian labor force: Employed
+                        Variable: [DHX003] Male >> Labor force: Civilian labor force: Unemployed
+                        Variable: [DHX006] Female >> Labor force: Civilian labor force: Employed
+                        Variable: [DHX007] Female >> Labor force: Civilian labor force: Unemployed
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP70. Sex by Employment Status
+                    Universe: Persons 16 years and over
+                        Variable: [E4I002] Male >> In labor force: Civilian: Employed
+                        Variable: [E4I003] Male >> In labor force: Civilian: Unemployed
+                        Variable: [E4I006] Female >> In labor force: Civilian: Employed
+                        Variable: [E4I007] Female >> In labor force: Civilian: Unemployed
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP043D. Population 16 Years and Over by Sex by Armed Forces Status
+                    Universe: Persons 16 Years and Over in Labor Force
+                        Variable: [GLQ002] Male >> Civilian
+                        Variable: [GLQ004] Female >> Civilian
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B23025. Employment Status for the Population 16 Years and Over
+                    Universe: Population 16 years and over
+                        Variable: [QXS003] In labor force: Civilian labor force
+ 
+    Time series AD: Persons: 16 years and over ~ In labor force--Civilian--Employed
+        Year: 1970
+            Source dataset: 1970 Census: Count 4Pb - Sample-Based Population Data with Race/Ethnicity Breakdown
+                Source table: NT54. Sex by Labor Force Status and Selected Characteristics
+                    Universe: Persons 16 Years and Over
+                        Variable: [C23002] Male >> In labor force: Employed
+                        Variable: [C23011] Female >> In labor force: Employed
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT55A. Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [DHX002] Male >> Labor force: Civilian labor force: Employed
+                        Variable: [DHX006] Female >> Labor force: Civilian labor force: Employed
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP70. Sex by Employment Status
+                    Universe: Persons 16 years and over
+                        Variable: [E4I002] Male >> In labor force: Civilian: Employed
+                        Variable: [E4I006] Female >> In labor force: Civilian: Employed
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP043E. Population 16 Years and Over by Sex by Employment Status
+                    Universe: Civilian Persons 16 Years and Over in Labor Force
+                        Variable: [GLR001] Male >> Employed
+                        Variable: [GLR003] Female >> Employed
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B23025. Employment Status for the Population 16 Years and Over
+                    Universe: Population 16 years and over
+                        Variable: [QXS004] In labor force: Civilian labor force: Employed
+ 
+    Time series AE: Persons: 16 years and over ~ In labor force--Civilian--Unemployed
+        Year: 1970
+            Source dataset: 1970 Census: Count 4Pb - Sample-Based Population Data with Race/Ethnicity Breakdown
+                Source table: NT54. Sex by Labor Force Status and Selected Characteristics
+                    Universe: Persons 16 Years and Over
+                        Variable: [C23003] Male >> In labor force: Unemployed
+                        Variable: [C23012] Female >> In labor force: Unemployed
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT55A. Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [DHX003] Male >> Labor force: Civilian labor force: Unemployed
+                        Variable: [DHX007] Female >> Labor force: Civilian labor force: Unemployed
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP70. Sex by Employment Status
+                    Universe: Persons 16 years and over
+                        Variable: [E4I003] Male >> In labor force: Civilian: Unemployed
+                        Variable: [E4I007] Female >> In labor force: Civilian: Unemployed
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP043E. Population 16 Years and Over by Sex by Employment Status
+                    Universe: Civilian Persons 16 Years and Over in Labor Force
+                        Variable: [GLR002] Male >> Unemployed
+                        Variable: [GLR004] Female >> Unemployed
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B23025. Employment Status for the Population 16 Years and Over
+                    Universe: Population 16 years and over
+                        Variable: [QXS005] In labor force: Civilian labor force: Unemployed
+ 
+    Time series AF: Persons: 16 years and over ~ Not in labor force
+        Year: 1970
+            Source dataset: 1970 Census: Count 4Pb - Sample-Based Population Data with Race/Ethnicity Breakdown
+                Source table: NT54. Sex by Labor Force Status and Selected Characteristics
+                    Universe: Persons 16 Years and Over
+                        Variable: [C23004] Male >> Not in labor force: Under 65: Inmate
+                        Variable: [C23005] Male >> Not in labor force: Under 65: Enrolled in school
+                        Variable: [C23006] Male >> Not in labor force: Under 65: Other
+                        Variable: [C23007] Male >> Not in labor force: 65 and over: Inmate
+                        Variable: [C23008] Male >> Not in labor force: 65 and over: Enrolled in school
+                        Variable: [C23009] Male >> Not in labor force: 65 and over: Other
+                        Variable: [C23013] Female >> Not in labor force: Under 65: Inmate
+                        Variable: [C23014] Female >> Not in labor force: Under 65: Enrolled in school
+                        Variable: [C23015] Female >> Not in labor force: Under 65: Other
+                        Variable: [C23016] Female >> Not in labor force: 65 and over: Inmate
+                        Variable: [C23017] Female >> Not in labor force: 65 and over: Enrolled in school
+                        Variable: [C23018] Female >> Not in labor force: 65 and over: Other
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT55A. Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [DHX004] Male >> Not in labor force
+                        Variable: [DHX008] Female >> Not in labor force
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP70. Sex by Employment Status
+                    Universe: Persons 16 years and over
+                        Variable: [E4I004] Male >> In labor force: Civilian: Not in labor force
+                        Variable: [E4I008] Female >> In labor force: Civilian: Not in labor force
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP043C. Population 16 Years and Over by Sex by Labor Force Status
+                    Universe: Persons 16 Years and Over
+                        Variable: [GLP002] Male >> Not in labor force
+                        Variable: [GLP004] Female >> Not in labor force
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B23025. Employment Status for the Population 16 Years and Over
+                    Universe: Population 16 years and over
+                        Variable: [QXS007] Not in labor force
+ 
+ 
+Table 4: (B71) Households by Income in Previous Year [15]
+ 
+    Time series AA: Households: Income less than $10,000
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T001] Less than $5,000
+                        Variable: [E4T002] $5,000 to $9,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX001] Less than $10,000
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0002] Less than $10,000
+ 
+    Time series AB: Households: Income $10,000 to $14,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T003] $10,000 to $12,499
+                        Variable: [E4T004] $12,500 to $14,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX002] $10,000 to $14,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0003] $10,000 to $14,999
+ 
+    Time series AC: Households: Income $15,000 to $19,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T005] $15,000 to $17,499
+                        Variable: [E4T006] $17,500 to $19,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX003] $15,000 to $19,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0004] $15,000 to $19,999
+ 
+    Time series AD: Households: Income $20,000 to $24,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T007] $20,000 to $22,499
+                        Variable: [E4T008] $22,500 to $24,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX004] $20,000 to $24,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0005] $20,000 to $24,999
+ 
+    Time series AE: Households: Income $25,000 to $29,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T009] $25,000 to $27,499
+                        Variable: [E4T010] $27,500 to $29,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX005] $25,000 to $29,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0006] $25,000 to $29,999
+ 
+    Time series AF: Households: Income $30,000 to $34,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T011] $30,000 to $32,499
+                        Variable: [E4T012] $32,500 to $34,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX006] $30,000 to $34,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0007] $30,000 to $34,999
+ 
+    Time series AG: Households: Income $35,000 to $39,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T013] $35,000 to $37,499
+                        Variable: [E4T014] $37,500 to $39,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX007] $35,000 to $39,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0008] $35,000 to $39,999
+ 
+    Time series AH: Households: Income $40,000 to $44,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T015] $40,000 to $42,499
+                        Variable: [E4T016] $42,500 to $44,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX008] $40,000 to $44,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0009] $40,000 to $44,999
+ 
+    Time series AI: Households: Income $45,000 to $49,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T017] $45,000 to $47,499
+                        Variable: [E4T018] $47,500 to $49,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX009] $45,000 to $49,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0010] $45,000 to $49,999
+ 
+    Time series AJ: Households: Income $50,000 to $59,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T019] $50,000 to $54,999
+                        Variable: [E4T020] $55,000 to $59,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX010] $50,000 to $59,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0011] $50,000 to $59,999
+ 
+    Time series AK: Households: Income $60,000 to $74,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T021] $60,000 to $74,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX011] $60,000 to $74,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0012] $60,000 to $74,999
+ 
+    Time series AL: Households: Income $75,000 to $99,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T022] $75,000 to $99,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX012] $75,000 to $99,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0013] $75,000 to $99,999
+ 
+    Time series AM: Households: Income $100,000 to $124,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T023] $100,000 to $124,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX013] $100,000 to $124,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0014] $100,000 to $124,999
+ 
+    Time series AN: Households: Income $125,000 to $149,999
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T024] $125,000 to $149,999
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX014] $125,000 to $149,999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0015] $125,000 to $149,999
+ 
+    Time series AO: Households: Income $150,000 or more
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80. Household Income in 1989
+                    Universe: Households
+                        Variable: [E4T025] $150,000 or more
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP052A. Household Income in 1999
+                    Universe: Households
+                        Variable: [GMX015] $150,000 to $199,999
+                        Variable: [GMX016] $200,000 or more
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19001. Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU0016] $150,000 to $199,999
+                        Variable: [QU0017] $200,000 or more
+ 
+ 
+Table 5: (B79) Median Household Income in Previous Year
+ 
+    Time series AA: Median income in previous year: Households
+        Year: 1980
+            Source dataset: 1980 Census: STF 3 - Sample-Based Data
+                Source table: NT69. Median Household Income in 1979
+                    Universe: Households
+                        Variable: [DIE001] Median household income in 1979
+        Year: 1990
+            Source dataset: 1990 Census: STF 3 - Sample-Based Data
+                Source table: NP80A. Median Household Income in 1989
+                    Universe: Households
+                        Variable: [E4U001] Median household income in 1989
+        Year: 2000
+            Source dataset: 2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+                Source table: NP053A. Median Household Income in 1999
+                    Universe: Households
+                        Variable: [GMY001] Median income in 1999
+        Year: 2008-2012
+            Source dataset: 2012 American Community Survey: 5-Year Data [2008-2012, Block Groups & Larger Areas]
+                Source table: B19013. Median Household Income in the Past 12 Months (in 2012 Inflation-Adjusted Dollars)
+                    Universe: Households
+                        Variable: [QU1001] Median household income in the past 12 months (in 2012 inflation-adjusted dollars)
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 15.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2020. 
+        http://doi.org/10.18128/D050.V15.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455
