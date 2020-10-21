@@ -22,19 +22,27 @@ library(dplyr)
 
 ```{r Preparing, message=FALSE, warning=FALSE}
 
-bos <- read_csv("bos_all.csv")
-#head(bos)
+#bos <- read_csv("bos_all.csv")
+bos <- read_csv("census_suffolk_standardized.csv")
+head(bos)
 
-# Removing rows with missing data --> 119 obs of 19 variables
-tempbos <- na.omit(bos)
+# Removing rows with missing data --> 119 obs of 19 variables using bos_all
+#tempbos <- na.omit(bos)
+# NOTE: no NA entried in the census_suffolk_standardized set 
 
+# ###########################################
+# THE FOLLOWING IS FOR BOS_ALL -- IGNORED
+# ###########################################
 # Prepping the data:
-locations <- tempbos[, c(4, 13)] # Retain location details & GEOID
-vars <- tempbos[, c(1:3, 5:12, 14:19)] # Extract numeric data
-rownames(vars) <- locations$GEOID # Rename rows --> GEOID
+#locations <- tempbos[, c(4, 13)] # Retain location details & GEOID
+#vars <- tempbos[, c(1:3, 5:12, 14:19)] # Extract numeric data
+#rownames(vars) <- locations$GEOID # Rename rows --> GEOID
 
+# For cesus_suffolk_standardized:
+vars <- bos[, 9:260]
 # Standardization:
-vars_scaled <- scale(vars)
+vars_scaled <- as.tibble(scale(vars))
+rownames(vars_scaled) <- bos$Census.Tract.Code # Rename rows --> Census tract code
 #head(vars_scaled)
 
 ```
@@ -117,6 +125,8 @@ fviz_nbclust(vars_scaled, kmeans, method = "wss") +
 
 This method gave us some insights, but it could be argued that either 3 or 5 clusters could be used with our data for the best results, so we'll try some other methods to be sure.
 
+**For the new dataset** - The optimal number of clusters seems to be 2, but to be sure, we'll check other methods.
+
 
 ## Average Silhouette Method
 
@@ -131,6 +141,8 @@ fviz_nbclust(vars_scaled, kmeans, method = "silhouette") +
 ```
 
 This seems to confirm that 3 clusters is optimal for performing clustering on our data, but to be certain, I will look into another determination method.
+
+**For the new dataset** - This method also seems to name 2 clusters as the optimal number.
 
 
 ## Gap Statistic Method
@@ -151,15 +163,17 @@ fviz_gap_stat(gap) + theme(plot.title = element_text(hjust = 0.5))
 
 Under the circumstances of our data, this is clearly an unreliable approach to determining the optimal number of clusters. With the previous two methods suggesting 3 clusters, we will proceed with k = 3.
 
+**For the new dataset** - Again, this is a bit of a wildcard, naming 9 as the optimal number of clusters, so we will proceed with 2 for this new dataset.
+
 
 ```{r clusterStats}
 
-fviz_cluster(k3, data = vars_scaled, geom = "point") +
-  ggtitle("k = 3") + theme(plot.title = element_text(hjust = 0.5))
+fviz_cluster(k2, data = vars_scaled, geom = "point") +
+  ggtitle("k = 2") + theme(plot.title = element_text(hjust = 0.5))
 
 # Inter-cluster means for all variables in the non-scaled data:
 vars %>%
-  mutate(Cluster = k3$cluster) %>%
+  mutate(Cluster = k2$cluster) %>%
   group_by(Cluster) %>%
   summarise_all("mean")
 
@@ -171,7 +185,7 @@ vars %>%
 I will now separate the data based on which year of the Census survey the data is based on in order to examine the differences in clusters over time.
 
 
-## Gathering the data
+## Gathering the data -- bos_all dataset
 
 ```{r Prep2}
 
@@ -193,7 +207,29 @@ d10scaled <- scale(d10)
 ```
 
 
-## Visualize clusters over time
+## Gathering the data -- census_suffolk_standardized dataset
+
+```{r Prep3}
+
+# Data by decade:
+d90 <- bos %>% select(contains("1990"))
+d00 <- bos %>% select(contains("2000"))
+d10 <- bos %>% select(contains("2010"))
+
+# Name rows by GEOID:
+rownames(d90) <- bos$Census.Tract.Code
+rownames(d00) <- bos$Census.Tract.Code
+rownames(d10) <- bos$Census.Tract.Code
+
+# Scale data:
+d90scaled <- scale(d90)
+d00scaled <- scale(d00)
+d10scaled <- scale(d10)
+
+```
+
+
+## Visualize clusters over time -- bos_all data
 
 I'll start by assuming the number of optimal clusters remains to be 3.
 
@@ -220,7 +256,30 @@ grid.arrange(plot90, plot00, plot10, nrow = 1)
 There seems to be a fairly significant difference among the clusters from 1990 to 2010, so we will have to look into what factors are attributed to this shift.
 
 
-# Hierarchical Clustering
+## Visualize clusters over time -- census_suffolk_standardized data
+
+```{r}
+
+k2d90 <- kmeans(d90scaled, centers = 2, nstart = 25)
+k2d00 <- kmeans(d00scaled, centers = 2, nstart = 25)
+k2d10 <- kmeans(d10scaled, centers = 2, nstart = 25)
+
+plot90 <- fviz_cluster(k2d90, data = d90scaled, geom = "point") +
+  ggtitle("1990 Data with k = 2 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+plot00 <- fviz_cluster(k2d00, data = d00scaled, geom = "point") +
+  ggtitle("2000 Data with k = 2 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+plot10 <- fviz_cluster(k2d10, data = d10scaled, geom = "point") +
+  ggtitle("2010 Data with k = 2 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+grid.arrange(plot90, plot00, plot10, nrow = 1)
+
+```
+
+
+# Hierarchical Clustering -- bos_all data
 
 ```{r}
 
@@ -240,6 +299,31 @@ hc10 <- hclust(dist10)
 plot(hc10, cex = 0.65)
 
 ```
+
+
+# Hierarchical Clustering -- census_suffolk_standardized data
+
+```{r}
+
+# 1990 
+dist90 <- dist(d90scaled)
+hc90 <- hclust(dist90)
+plot(hc90, cex = 0.65)
+
+# 2000 
+dist00 <- dist(d00scaled)
+hc00 <- hclust(dist00)
+plot(hc00, cex = 0.65)
+
+# 2010 
+dist10 <- dist(d10scaled)
+hc10 <- hclust(dist10)
+plot(hc10, cex = 0.65)
+
+```
+
+
+
 
 
 
