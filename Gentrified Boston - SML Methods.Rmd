@@ -12,7 +12,7 @@ BCD <- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb
 
 #Create the labels for gentrified neighborhoods using data in csv file; stand alone research
 #BGN stands for Boston gentrified neighborhoods
-BGN <- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/Research/Gentrified%20Boston%20Neighborhoods.csv",
+BGN <- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/Research/GentrifiedNbhds.csv",
                 header = TRUE)
 
 
