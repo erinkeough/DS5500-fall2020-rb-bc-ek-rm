@@ -7,9 +7,25 @@ suff_std <-read_csv("census-csv/census_suffolk_standardized.csv")
 suff_nom<-read_csv("census-csv/census_suffolk_nominal.csv")
 
 rel00_10<-read_csv("census-csv/marelationship0010.csv", col_types = "ccccddcddccccddcdddddddddddddd")%>%
+  filter(COUNTY00 == "025")%>%
   select(-contains("STATE"),
          -contains("COUNTY"),
          -contains("GEOID"))
+
+
+rel90_00<-read_csv("census-csv/suffrelationship9000.txt", col_names = F)%>%
+  mutate(
+    TRACT90 = str_sub(X1, 6,11),
+    PART90 = ifelse(str_sub(X1, 12,12)=="P", "P", "W"),
+    POP90 = as.numeric(str_sub(X1, 13, 21)),
+    POPPCT90 = as.numeric(str_sub(X1, 22,25))/10,
+    TRACT00 = str_sub(X1, 31,36),
+    PART00 = ifelse(str_sub(X1, 37,37)=="P", "P", "W"),
+    POP00 = as.numeric(str_sub(X1, 38,46)),
+    POPPCT00 = as.numeric(str_sub(X1, 47,50))/10
+  )%>%
+  select(-X1)%>%filter(TRACT00!="000000")
+
 
 
 
