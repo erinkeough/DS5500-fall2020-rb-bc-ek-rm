@@ -36,3 +36,43 @@ create_after_df<-function(nom_data, subset_data, before_year, after_year){
 }
 
 
+### Use Relationship File to translate Before tract pop to After tract pop
+### arg(nom_data, rel_df, before_year, after_year)
+### return(dest_df) \filled in with pops
+tract_translate<-function(nom_data, rel_df, before_year, after_year){
+  subset_data<-subset_nom(nom_data, before_year)
+  dest_df<-create_after_df(nom_data, subset_data, before_year,after_year)
+  
+  col_before<-paste0("TRACT",str_sub(before_year,3))
+  col_after<-paste0("TRACT", str_sub(after_year,3))
+  col_pct<-paste0("POPPCT", str_sub(before_year,3))
+  
+  for(row in 1:nrow(rel_df)){
+    t_before<-rel_df[[col_before]][row]
+    t_after<-rel_df[[col_after]][row]
+    pct<-rel_df[[col_pct]][row]
+    
+    ## loop through columns of specific row
+    for(c_index in 1:ncol(subset_data)){
+      c_name = colnames(subset_data[,c_index])
+      if(str_detect(c_name, "GIS.Join")|str_detect(c_name, "TRACT")){
+        next()
+      }
+      
+      dest_df[dest_df[[col_after]]==t_after,c_index]<-
+        dest_df[dest_df[[col_after]]==t_after, c_index]+
+        subset_data[subset_data[[col_before]]==t_before, c_index]*pct
+    }
+    
+  }
+  
+  return(dest_df)
+}
+
+
+
+
+
+
+
+

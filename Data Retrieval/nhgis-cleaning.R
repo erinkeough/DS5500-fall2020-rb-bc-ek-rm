@@ -71,7 +71,6 @@ for(row in 1:nrow(rel90_00)){
                                             nom90[nom90$TRACT90==t90, column]*pct
   }
   
-  
 }
 
 # #Any tracts not included in these lists were ineligible to gentrify for both time periods
