@@ -3,18 +3,53 @@ title: "Gentrified Boston - SML Methods"
 author: "Rebecca Brent"
 output: html_notebook
 ---
+```{r, warning=FALSE}
+#Libraries required
+library(dplyr)
+library(tidyverse)
+library(caret)
+library(nnet)
+```
+
+
 
 ```{r}
-#Read data from github repo
-#BCD stands for Boston Census Data
-BCD <- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/census-csv/bos_all.csv",
-                  header = TRUE)
+#load data from github
+suffolk_df<- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/census-csv/prop_change_suffolk_labeled.csv")
 
-#Create the labels for gentrified neighborhoods using data in csv file; stand alone research
-#BGN stands for Boston gentrified neighborhoods
-BGN <- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/Research/GentrifiedNbhds.csv",
-                header = TRUE)
+```
+
+```{r}
+#Create Train-Test Split  
+set.seed(1)
+trainIndex <- createDataPartition(suffolk_df$Gent_Label, p = .8,
+                                  list = FALSE,
+                                  times = 1)
+imbal_train <- suffolk_df[trainIndex,]
+imbal_valid <- suffolk_df[-trainIndex,]
+
+# Resample the train data to account for class imbalance
+#ctrl <- trainControl(method = "repeatedcv", repeats = 5,
+#                     classProbs = TRUE,
+#                     summaryFunction = twoClassSummary,
+#                     sampling = "rose")
+#set.seed(1)
+#rose_inside <- train(Gent_Label~ .-Census.Tract.Code, 
+#                     data = imbal_train,
+#                     method = "glm",
+#                     family="binomial",
+#                     metric = "ROC",
+#                     trControl = ctrl)
+#inside_resampling <- resamples(rose_inside)
+#y_pred <- predict(rose_inside, data=imbal_valid)
+#calc_acc(actual = default_tst$default,
+#         predicted = predict(default_glm_mod, newdata = default_tst))
+```
 
 
+```{r}
+#Run multinomial logistic regression
+multinomModel <- multinom(Gent_Label~.-X-Data.Measurement.Year-Census.Tract.Code, data = imbal_train)
+summary(multinomModel)
 ```
 
