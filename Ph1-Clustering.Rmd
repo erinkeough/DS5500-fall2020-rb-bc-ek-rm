@@ -5,7 +5,7 @@ date: "10/2/2020"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(readr)
 library(dplyr)
@@ -23,7 +23,7 @@ library(dplyr)
 ```{r Preparing, message=FALSE, warning=FALSE}
 
 #bos <- read_csv("bos_all.csv")
-bos <- read_csv("census_suffolk_standardized.csv")
+bos <- read_csv("census-csv/census_suffolk_standardized.csv")
 head(bos)
 
 # Removing rows with missing data --> 119 obs of 19 variables using bos_all
@@ -305,42 +305,94 @@ plot(hc10, cex = 0.65)
 
 ```{r}
 
+# ALL:
+distbos <- dist(vars_scaled)
+hcbos <- hclust(distbos)
+plot(hcbos, cex = 0.65, main = NULL) + 
+  title(main = "Cluster Dendrogram for Boston Census Tracts")
+
+# Scale data:
+d90scaled <- scale(d90)
+
 # 1990 
 dist90 <- dist(d90scaled)
 hc90 <- hclust(dist90)
-plot(hc90, cex = 0.65)
+plot(hc90, cex = 0.65, main = NULL) +
+  title(main = "1990 Cluster Dendrogram")
 
 # 2000 
 dist00 <- dist(d00scaled)
 hc00 <- hclust(dist00)
-plot(hc00, cex = 0.65)
+plot(hc00, cex = 0.65, main = NULL) +
+  title(main = "2000 Cluster Dendrogram")
 
 # 2010 
 dist10 <- dist(d10scaled)
 hc10 <- hclust(dist10)
-plot(hc10, cex = 0.65)
+plot(hc10, cex = 0.65, main = NULL) +
+  title(main = "2010 Cluster Dendrogram")
 
 ```
 
 
-
-
-
-
 # Plotting clusters in Boston geography
+
+```{r message=FALSE, warning=FALSE}
+
+# Read in Massachusetts data
+tractsMA <- read_csv("census-csv/tracts_geography.csv") %>% filter(USPS == "MA")
+
+# Keep only Suffolk County (FIPS: 25025)
+tracts <- tractsMA[grepl("^25025", tractsMA$GEOID), ]
+# Derive the GEOID from the tract codes
+bos$GEOID <- as.numeric(paste(25025, 
+                                  sprintf("%06d", bos$Census.Tract.Code),
+                                  sep = ""
+                                  )
+                            )
+# Join datasets on GEOID
+geo <- bos %>% left_join(tracts) %>% as.data.frame() 
+# Add cluster assignments from k-means
+geo$Cluster1990 <- k2d90$cluster
+geo$Cluster2000 <- k2d00$cluster
+geo$Cluster2010 <- k2d10$cluster
+
+library(ggmap)
+
+# ################################################################################
+# NOTE : THIS METHOD PRODUCES PRETTY LOW-RES MAPS, THIS WAS A PLACEHOLDER UNTIL I 
+# COULD GET THE NEXT SECTION OF CODE TO WORK
+# ################################################################################
+
+# Coordinate box around Boston
+bbox <- c(left = -71.165, bottom = 42.23, right = -71.0, top = 42.425)
+ggmap(get_stamenmap(bbox, zoom = 10, maptype = "terrain-lines")) + 
+  geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
+                             color = as.factor(Cluster1990))) +
+  labs(x = "Longitude", y = "Latitude", title = "1990 Boston Neighborhood Clusters",
+       color = "Cluster") +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+```
+
 
 ```{r}
 
-library(ggmap)
-Boston <- get_map(location = "Boston")
-ggmap(Boston)
+# Connect to Google APIs with your key:
+ggmap::register_google(key = "AIzaSyCRa3Dr1YXs8SPRULN0mJl6WA1pdknrm90")
 
-tm_shape(bos_acs18)+
-  tm_fill(col = "DP03_0062E",
-          palette = "Greens",
-          style = 'jenks',
-          title = "Median HH\nIncome '18")+
-  tm_borders(col = "darkgray")
+# Determine the coordinates of Boston:
+center <- geocode("Boston, Massachusetts", source = "google")
+
+# Generate the Google map of Boston:
+bosmap <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12)
+bosmap + 
+  geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
+                             color = as.factor(geo$Cluster2010), size = 2)) +
+  scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
+  scale_size(guide = 'none') +
+  labs(title = "2010 Boston Neighborhood Clusters", color = "Cluster") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 ```
 
