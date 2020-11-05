@@ -1,10 +1,7 @@
 require(tidyverse)
 
-## Suffolk county Standard data from NHGIS (not the Nominal Data)
-suff_std <-read_csv("census-csv/census_suffolk_standardized.csv")
-
 ## Suffolk county Nominal data from NHGIS 
-suff_nom<-read_csv("~/Desktop/census_suffolk_nominal.csv")%>%select(-X1)
+suff_nom<-read_csv("census-csv/census_suffolk_nominal.csv")%>%select(-X1)
 
 rel00_10<-read_csv("census-csv/marelationship0010.csv", col_types = "ccccddcddccccddcdddddddddddddd")%>%
   filter(COUNTY00 == "025", COUNTY10 == "025")%>%
@@ -28,53 +25,22 @@ rel90_00 <-
   ) %>%
   select(-X1) %>% filter(TRACT00 != "000000", TRACT90 != "000000")
 
+####
+## For 90 tracts - Translate from 90-00, Then from 00-10
+## For 00 tracts - Translate from 00-10
+## For 10 tracts - subset original df
+##
+## Merge three dfs on tract id for final df
 
-nom_translate_9000<-tract_translate(suff_nom, rel90_00,"1990", "2000")
-nom_translate_0010<-tract_translate(suff_nom, rel00_10, "2000", "2012")
 
-
-#####
-# Convert nominal 90 - 00
-#  1) filter table with just 90 data \/
-#  2) create 90A (table with '00 tract codes and 90 data columns)
-#  3) Fill 90A according to rel90_00
-
-# 1)
-nom90<-suff_nom%>%
-  filter(!is.na(GIS.Join.Match.Code..1990))%>%
-  select(contains("1990"))%>%
-  select(-Area.Name..1990)%>%
-  mutate(TRACT90 = str_sub(GIS.Join.Match.Code..1990,9),
-         TRACT90 = str_pad(TRACT90, 6, side = "right",pad="0"))
-
-############
-# 2)
-nom90B<-suff_nom%>%
-  select(GIS.Join.Match.Code..2000)%>%
-  filter(!is.na(GIS.Join.Match.Code..2000))
-
-for(newcol in colnames(nom90)){
-  nom90B[[newcol]]<-0
-}
-nom90B<-nom90B%>%
-  select(-GIS.Join.Match.Code..1990,-TRACT90)%>%
-  mutate(TRACT00 = str_sub(GIS.Join.Match.Code..2000,9),
-         TRACT00 = str_pad(TRACT00, 6, side = "right",pad="0"))%>%
-  filter(TRACT00 != "000000")
-
-############
-# 3)
-for(row in 1:nrow(rel90_00)){
-  t90<-rel90_00$TRACT90[row]
-  t00<-rel90_00$TRACT00[row]
-  pct<-rel90_00$POPPCT90[row]
+nom90_as_00<-tract_translate(suff_nom, rel90_00,"1990", "2000")
+nom90_as_10<-tract_translate(suff_nom, rel00_10, "2000","2012", subset_data = nom90_as_00)
+nom00_as_10<-tract_translate(suff_nom, rel00_10, "2000", "2012")
+nom10_as_10<-suff_nom%>%filter(!is.na(GIS.Join.Match.Code..2012))%>%
+  select(contains("2012"))%>%
+  mutate(TRACT12 = str_sub(GIS.Join.Match.Code..2012,9))
   
-  ## Skip first and last column 
-  ## First col is tract id, last column is fixed tract id
-  for(column in 2:ncol(nom90)){
-    if(column == ncol(nom90)){next()}
-    nom90B[nom90B$TRACT00==t00, column]<-nom90B[nom90B$TRACT00==t00, column]+
-                                            nom90[nom90$TRACT90==t90, column]*pct
-  }
-  
-}
+translated_nominal<-nom90_as_10%>%
+  full_join(nom00_as_10)%>%full_join(nom10_as_10)
+
+write_csv(translated_nominal, "census-csv/census_nominal_translated2010.csv")

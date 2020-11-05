@@ -37,10 +37,15 @@ create_after_df<-function(nom_data, subset_data, before_year, after_year){
 
 
 ### Use Relationship File to translate Before tract pop to After tract pop
-### arg(nom_data, rel_df, before_year, after_year)
+    ### If the data has already been translated once then set it == subset_data
+### arg(nom_data, rel_df, before_year, after_year, first_translate)
+###             If
 ### return(dest_df) \filled in with pops
-tract_translate<-function(nom_data, rel_df, before_year, after_year){
-  subset_data<-subset_nom(nom_data, before_year)
+tract_translate<-function(nom_data, rel_df, before_year, after_year, subset_data=NULL){
+  if(is.null(subset_data)){
+    subset_data<-subset_nom(nom_data, before_year)
+  }
+  
   dest_df<-create_after_df(nom_data, subset_data, before_year,after_year)
   
   col_before<-paste0("TRACT",str_sub(before_year,3))
