@@ -4,13 +4,14 @@ require(tidyverse)
 suff_std <-read_csv("census-csv/census_suffolk_standardized.csv")
 
 ## Suffolk county Nominal data from NHGIS 
-suff_nom<-read_csv("census-csv/census_suffolk_nominal.csv")
+suff_nom<-read_csv("~/Desktop/census_suffolk_nominal.csv")%>%select(-X1)
 
 rel00_10<-read_csv("census-csv/marelationship0010.csv", col_types = "ccccddcddccccddcdddddddddddddd")%>%
-  filter(COUNTY00 == "025")%>%
+  filter(COUNTY00 == "025", COUNTY10 == "025")%>%
   select(-contains("STATE"),
          -contains("COUNTY"),
-         -contains("GEOID"))
+         -contains("GEOID"))%>%
+  rename(TRACT12=TRACT10)
 
 
 rel90_00 <-
@@ -26,6 +27,11 @@ rel90_00 <-
     POPPCT00 = as.numeric(str_sub(X1, 47, 50)) / 1000
   ) %>%
   select(-X1) %>% filter(TRACT00 != "000000", TRACT90 != "000000")
+
+
+nom_translate_9000<-tract_translate(suff_nom, rel90_00,"1990", "2000")
+nom_translate_0010<-tract_translate(suff_nom, rel00_10, "2000", "2012")
+
 
 #####
 # Convert nominal 90 - 00

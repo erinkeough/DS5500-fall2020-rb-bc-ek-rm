@@ -1,0 +1,233 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0005_ds151_2000_tract'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2000
+Geographic level: Census Tract (by State--County)
+Dataset:          2000 Census: SF 3a - Sample-Based Data [Areas Larger Than Block Groups]
+   NHGIS code:    2000_SF3a
+   NHGIS ID:      ds151
+Breakdown(s):     Geographic Subarea:
+                     Total area (00)
+ 
+Tables:
+ 
+1. Units in Structure
+   Universe:    Housing Units
+   Source code: NH030A
+   NHGIS code:  GAF
+ 
+2. Vacant Housing Units by Units in Structure
+   Universe:    Vacant Housing Units
+   Source code: NH031A
+   NHGIS code:  GAG
+ 
+3. Median Contract Rent
+   Universe:    Specified Renter-Occupied Housing Units Paying Cash Rent
+   Source code: NH056A
+   NHGIS code:  GBG
+ 
+4. Median Gross Rent
+   Universe:    Specified Renter-Occupied Housing Units Paying Cash Rent
+   Source code: NH063A
+   NHGIS code:  GBO
+ 
+5. Specified Renter-Occupied Housing Units with Cash Rent by Number of Bedrooms by Gross Rent
+   Universe:    Specified Renter-Occupied Housing Units with Cash Rent
+   Source code: NH067C
+   NHGIS code:  GBU
+ 
+6. Median Value
+   Universe:    Specified Owner-Occupied Housing Units
+   Source code: NH076A
+   NHGIS code:  GB7
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        CTY_SUBA:    County Subdivision Code
+        PLACEA:      Place Code
+        TRACTA:      Census Tract Code
+        TRBL_CTA:    Tribal Census Tract Code
+        BLCK_GRPA:   Block Group Code
+        TRBL_BGA:    Tribal Block Group Code
+        C_CITYA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Reservation [excluding trust lands] Code
+        TRUSTA:      American Indian Reservation [trust lands only] Code
+        TRBL_SUBA:   Tribal Subdivision Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        MSA_CMSAA:   Metropolitan Statistical Area/Consolidated Metropolitan Statistical Area Code
+        PMSAA:       Primary Metropolitan Statistical Area Code
+        NECMAA:      New England County Metropolitan Area Code
+        URB_AREAA:   Urban Area Code
+        URBRURALA:   Urban/Rural Code
+        CD106A:      Congressional District (106th) Code
+        CD108A:      Congressional District (108th) Code
+        CD109A:      Congressional District (109th) Code
+        ZIP3A:       3-Digit Zip Code Tabulation Area Code
+        ZCTAA:       5-Digit Zip Code Tabulation Area Code
+        NAME:        Area Name-Legal/Statistical Area Description (LSAD) Term-Part Indicator
+ 
+Breakdown:
+    Geographic Subarea: Total area (00)
+ 
+    Table 1:     Units in Structure
+    Universe:    Housing Units
+    Source code: NH030A
+    NHGIS code:  GAF
+        GAF001:      1, detached
+        GAF002:      1, attached
+        GAF003:      2
+        GAF004:      3 or 4
+        GAF005:      5 to 9
+        GAF006:      10 to 19
+        GAF007:      20 to 49
+        GAF008:      50 or more
+        GAF009:      Mobile home
+        GAF010:      Boat, RV, van, etc.
+ 
+    Table 2:     Vacant Housing Units by Units in Structure
+    Universe:    Vacant Housing Units
+    Source code: NH031A
+    NHGIS code:  GAG
+        GAG001:      1, detached
+        GAG002:      1, attached
+        GAG003:      2
+        GAG004:      3 or 4
+        GAG005:      5 to 9
+        GAG006:      10 to 19
+        GAG007:      20 to 49
+        GAG008:      50 or more
+        GAG009:      Mobile home
+        GAG010:      Boat, RV, van, etc.
+ 
+    Table 3:     Median Contract Rent
+    Universe:    Specified Renter-Occupied Housing Units Paying Cash Rent
+    Source code: NH056A
+    NHGIS code:  GBG
+        GBG001:      Median contract rent
+ 
+    Table 4:     Median Gross Rent
+    Universe:    Specified Renter-Occupied Housing Units Paying Cash Rent
+    Source code: NH063A
+    NHGIS code:  GBO
+        GBO001:      Median gross rent
+ 
+    Table 5:     Specified Renter-Occupied Housing Units with Cash Rent by Number of Bedrooms by Gross Rent
+    Universe:    Specified Renter-Occupied Housing Units with Cash Rent
+    Source code: NH067C
+    NHGIS code:  GBU
+        GBU001:      No bedrooms >> Less than $200
+        GBU002:      No bedrooms >> $200 to $299
+        GBU003:      No bedrooms >> $300 to $499
+        GBU004:      No bedrooms >> $500 to $749
+        GBU005:      No bedrooms >> $750 to $999
+        GBU006:      No bedrooms >> $1,000 or more
+        GBU007:      1 bedroom >> Less than $200
+        GBU008:      1 bedroom >> $200 to $299
+        GBU009:      1 bedroom >> $300 to $499
+        GBU010:      1 bedroom >> $500 to $749
+        GBU011:      1 bedroom >> $750 to $999
+        GBU012:      1 bedroom >> $1,000 or more
+        GBU013:      2 bedrooms >> Less than $200
+        GBU014:      2 bedrooms >> $200 to $299
+        GBU015:      2 bedrooms >> $300 to $499
+        GBU016:      2 bedrooms >> $500 to $749
+        GBU017:      2 bedrooms >> $750 to $999
+        GBU018:      2 bedrooms >> $1,000 or more
+        GBU019:      3 or more bedrooms >> Less than $200
+        GBU020:      3 or more bedrooms >> $200 to $299
+        GBU021:      3 or more bedrooms >> $300 to $499
+        GBU022:      3 or more bedrooms >> $500 to $749
+        GBU023:      3 or more bedrooms >> $750 to $999
+        GBU024:      3 or more bedrooms >> $1,000 or more
+ 
+    Table 6:     Median Value
+    Universe:    Specified Owner-Occupied Housing Units
+    Source code: NH076A
+    NHGIS code:  GB7
+        GB7001:      Median value
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 15.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2020. 
+        http://doi.org/10.18128/D050.V15.0
+
+    * Publications and research reports employing school attendance areas data 
+      (either tabular or GIS) must cite it appropriately. The citation should 
+      include the following:
+
+        The College of William and Mary and the Minnesota Population Center.
+        School Attendance Boundary Information System (SABINS): Version 1.0.
+        Minneapolis, MN: University of Minnesota 2011.
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+    * If possible, citations involving school attendance areas should also include
+      the URL for the SABINS site:
+
+        http://www.sabinsdata.org/.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455

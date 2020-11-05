@@ -1,0 +1,221 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0005_ds123_1990_tract'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             1990
+Geographic level: Census Tract (by State--County)
+Dataset:          1990 Census: STF 3 - Sample-Based Data
+   NHGIS code:    1990_STF3
+   NHGIS ID:      ds123
+Breakdown(s):     Geographic Subarea:
+                     Total area (00)
+ 
+Tables:
+ 
+1. Units in Structure
+   Universe:    Housing units
+   Source code: NH20
+   NHGIS code:  EX2
+ 
+2. Units in Structure
+   Universe:    Vacant housing units
+   Source code: NH21
+   NHGIS code:  EX3
+ 
+3. Bedrooms by Gross Rent
+   Universe:    Specified renter-occupied housing units
+   Source code: NH34
+   NHGIS code:  EYI
+ 
+4. Median Gross Rent
+   Universe:    Specified renter-occupied housing units paying cash rent
+   Source code: NH43A
+   NHGIS code:  EYU
+ 
+5. Median Gross Rent as a Percentage of Household Income in 1989
+   Universe:    Specified renter-occupied housing units paying cash rent
+   Source code: NH50A
+   NHGIS code:  EY3
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        ANRCA:       Alaska Native Regional Corporation Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Reservation [excluding trust lands] Code
+        TRUSTA:      American Indian Reservation [trust lands only] Code
+        RES_TRSTA:   Reservation/Trust Lands Code
+        BLCK_GRPA:   Block Group Code
+        TRACTA:      Census Tract Code
+        CD101A:      Congressional District (101st) Code
+        C_CITYA:     Consolidated City Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        CTY_SUBA:    County Subdivision Code
+        DIVISIONA:   Division Code
+        MSA_CMSAA:   Metropolitan Statistical Area/Consolidated Metropolitan Statistical Area Code
+        PLACEA:      Place Code
+        PMSAA:       Primary Metropolitan Statistical Area Code
+        REGIONA:     Region Code
+        STATE:       State Name
+        STATEA:      State Code
+        URBRURALA:   Urban/Rural Code
+        URB_AREAA:   Urban Area Code
+        ZIPA:        5-Digit ZIP Code Code
+        CD103A:      Congressional District (103rd) Code
+        ANPSADPI:    Area Name/PSAD Term/Part Indicator
+ 
+Breakdown:
+    Geographic Subarea: Total area (00)
+ 
+    Table 1:     Units in Structure
+    Universe:    Housing units
+    Source code: NH20
+    NHGIS code:  EX2
+        EX2001:      1, detached
+        EX2002:      1, attached
+        EX2003:      2
+        EX2004:      3 or 4
+        EX2005:      5 to 9
+        EX2006:      10 to 19
+        EX2007:      20 to 49
+        EX2008:      50 or more
+        EX2009:      Mobile home or trailer
+        EX2010:      Other
+ 
+    Table 2:     Units in Structure
+    Universe:    Vacant housing units
+    Source code: NH21
+    NHGIS code:  EX3
+        EX3001:      1, detached
+        EX3002:      1, attached
+        EX3003:      2
+        EX3004:      3 or 4
+        EX3005:      5 to 9
+        EX3006:      10 to 19
+        EX3007:      20 to 49
+        EX3008:      50 or more
+        EX3009:      Mobile home or trailer
+        EX3010:      Other
+ 
+    Table 3:     Bedrooms by Gross Rent
+    Universe:    Specified renter-occupied housing units
+    Source code: NH34
+    NHGIS code:  EYI
+        EYI001:      No bedroom >> With cash rent: Less than $200
+        EYI002:      No bedroom >> With cash rent: $200 to $299
+        EYI003:      No bedroom >> With cash rent: $300 to $499
+        EYI004:      No bedroom >> With cash rent: $500 to $749
+        EYI005:      No bedroom >> With cash rent: $750 to $999
+        EYI006:      No bedroom >> With cash rent: $1,000 or more
+        EYI007:      No bedroom >> No cash rent
+        EYI008:      1 bedroom >> With cash rent: Less than $200
+        EYI009:      1 bedroom >> With cash rent: $200 to $299
+        EYI010:      1 bedroom >> With cash rent: $300 to $499
+        EYI011:      1 bedroom >> With cash rent: $500 to $749
+        EYI012:      1 bedroom >> With cash rent: $750 to $999
+        EYI013:      1 bedroom >> With cash rent: $1,000 or more
+        EYI014:      1 bedroom >> No cash rent
+        EYI015:      2 bedrooms >> With cash rent: Less than $200
+        EYI016:      2 bedrooms >> With cash rent: $200 to $299
+        EYI017:      2 bedrooms >> With cash rent: $300 to $499
+        EYI018:      2 bedrooms >> With cash rent: $500 to $749
+        EYI019:      2 bedrooms >> With cash rent: $750 to $999
+        EYI020:      2 bedrooms >> With cash rent: $1,000 or more
+        EYI021:      2 bedrooms >> No cash rent
+        EYI022:      3 or more bedrooms >> With cash rent: Less than $200
+        EYI023:      3 or more bedrooms >> With cash rent: $200 to $299
+        EYI024:      3 or more bedrooms >> With cash rent: $300 to $499
+        EYI025:      3 or more bedrooms >> With cash rent: $500 to $749
+        EYI026:      3 or more bedrooms >> With cash rent: $750 to $999
+        EYI027:      3 or more bedrooms >> With cash rent: $1,000 or more
+        EYI028:      3 or more bedrooms >> No cash rent
+ 
+    Table 4:     Median Gross Rent
+    Universe:    Specified renter-occupied housing units paying cash rent
+    Source code: NH43A
+    NHGIS code:  EYU
+        EYU001:      Median gross rent
+ 
+    Table 5:     Median Gross Rent as a Percentage of Household Income in 1989
+    Universe:    Specified renter-occupied housing units paying cash rent
+    Source code: NH50A
+    NHGIS code:  EY3
+        EY3001:      Median gross rent as a percentage of household income in 1989
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 15.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2020. 
+        http://doi.org/10.18128/D050.V15.0
+
+    * Publications and research reports employing school attendance areas data 
+      (either tabular or GIS) must cite it appropriately. The citation should 
+      include the following:
+
+        The College of William and Mary and the Minnesota Population Center.
+        School Attendance Boundary Information System (SABINS): Version 1.0.
+        Minneapolis, MN: University of Minnesota 2011.
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+    * If possible, citations involving school attendance areas should also include
+      the URL for the SABINS site:
+
+        http://www.sabinsdata.org/.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455

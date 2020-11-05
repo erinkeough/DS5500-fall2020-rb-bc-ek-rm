@@ -51,6 +51,8 @@ tract_translate<-function(nom_data, rel_df, before_year, after_year){
     t_before<-rel_df[[col_before]][row]
     t_after<-rel_df[[col_after]][row]
     pct<-rel_df[[col_pct]][row]
+    if(pct == 0){next()}
+    
     
     ## loop through columns of specific row
     for(c_index in 1:ncol(subset_data)){
@@ -58,7 +60,11 @@ tract_translate<-function(nom_data, rel_df, before_year, after_year){
       if(str_detect(c_name, "GIS.Join")|str_detect(c_name, "TRACT")){
         next()
       }
-      
+      if(dim(dest_df[dest_df[[col_after]]==t_after, c_index])[1] != dim(subset_data[subset_data[[col_before]]==t_before, c_index])[1] ){
+        print(subset_data[subset_data[[col_before]]==t_before, c_index])
+        print(dest_df[dest_df[[col_after]]==t_after, c_index])
+        stop("dimensions do not match")
+      }
       dest_df[dest_df[[col_after]]==t_after,c_index]<-
         dest_df[dest_df[[col_after]]==t_after, c_index]+
         subset_data[subset_data[[col_before]]==t_before, c_index]*pct
