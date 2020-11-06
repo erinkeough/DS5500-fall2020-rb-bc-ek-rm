@@ -3,19 +3,21 @@ title: "Gentrified Boston - SML Methods"
 author: "Rebecca Brent"
 output: html_notebook
 ---
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 #Libraries required
-library(dplyr)
 library(tidyverse)
 library(caret)
 library(nnet)
+library(MASS)
 ```
 
 
 
-```{r}
+```{r, message=F,warning=F}
 #load data from github
-suffolk_df<- read.csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/census-csv/prop_change_suffolk_labeled.csv")
+suffolk_df<- read_csv("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/census-csv/prop_change_suffolk_labeled.csv")
+
+suffolk_df<-read_csv("census-csv/prop_change_suffolk_labeled.csv")
 
 ```
 
@@ -47,9 +49,46 @@ imbal_valid <- suffolk_df[-trainIndex,]
 ```
 
 
+## Linear Discriminant Analysis
+
+### Fit with all predictors
+
+```{r}
+lda_cvfit<-lda(Gent_Label~.-Census.Tract.Code, data = suffolk_df, cv=T)
+lda_cvpred<-predict(lda_cvfit, suffolk_df)
+mean(lda_cvpred$class==suffolk_df$Gent_Label)
+```
+Accuracy 
+
+
+### Fit with intuitive subset
+
+Chosen by examining PCA and inuition
+
+```{r}
+suff_intu<-suffolk_df%>%dplyr::select(prop.change.population.young.adult,
+                               prop.change.population.race.White,
+                               prop.change.housing.householder.race.White,
+                               prop.change.household.size,
+                               Gent_Label)
+
+lda_intu<-lda(Gent_Label~., data = suff_intu, cv=T)
+lda_pred_intu<-predict(lda_intu, suffolk_df)
+mean(lda_pred_intu$class==suffolk_df$Gent_Label)
+
+```
+
+
+
+```{r}
+
+rf_fit<-randomForest(Gent_Label~., data=suff_numeric)
+```
+
+
 ```{r}
 #Run multinomial logistic regression
-multinomModel <- multinom(Gent_Label~.-X-Data.Measurement.Year-Census.Tract.Code, data = imbal_train)
+multinomModel <- multinom(Gent_Label~.-Census.Tract.Code, data = imbal_train)
 summary(multinomModel)
 ```
 
