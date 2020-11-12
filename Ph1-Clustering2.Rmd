@@ -1,0 +1,206 @@
+---
+title: "Clustering II"
+author: "Erin Keough"
+date: "11/4/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(cluster)
+library(factoextra)
+library(dplyr)
+library(gridExtra)
+library(ggmap)
+```
+
+
+# Clustering Part 2 - using `prop_change_suffolk_labeled.csv`
+
+
+```{r}
+
+# Load labeled proportion of change data
+bos <- read_csv("census-csv/prop_change_suffolk_labeled.csv")
+head(bos)
+
+# Select numeric data for 1990-2000 (1) & 2000-2010 (2):
+bos1 <- scale(bos %>% 
+  filter(Data.Measurement.Year == "1990-2000") %>%
+  select(4:35))
+bos2 <- scale(bos %>% 
+  filter(Data.Measurement.Year == "2000-2010") %>%
+  select(4:35))
+
+```
+
+```{r}
+
+# Verify optimal number of clusters
+## Elbow Method:
+fviz_nbclust(bos2, kmeans, method = "wss") + 
+  theme(plot.title = element_text(hjust = 0.5)) ## 2 ##
+## Average Silhouette Method:
+fviz_nbclust(bos2, kmeans, method = "silhouette") +
+  theme(plot.title = element_text(hjust = 0.5)) ## 2 ##
+## Gap Statistic Method:
+set.seed(1)
+gap <- clusGap(bos1, FUN = kmeans, nstart = 25, K.max = 10, B = 50)
+fviz_gap_stat(gap) + 
+  theme(plot.title = element_text(hjust = 0.5)) ## 1,2 ##
+
+```
+
+
+## Perform k-means on `bos1` and `bos2` datasets
+
+```{r}
+
+bos2k2 <- kmeans(bos2, centers = 2, nstart = 25)
+bos2k3 <- kmeans(bos2, centers = 3, nstart = 25)
+bos2k4 <- kmeans(bos2, centers = 4, nstart = 25)
+bos2k5 <- kmeans(bos2, centers = 5, nstart = 25)
+
+
+plot1k2 <- fviz_cluster(bos1k2, data = bos1, geom = "point") +
+  ggtitle("k = 2") + theme(plot.title = element_text(hjust = 0.5))
+plot1k3 <- fviz_cluster(bos1k3, data = bos1, geom = "point") +
+  ggtitle("k = 3") + theme(plot.title = element_text(hjust = 0.5))
+plot1k4 <- fviz_cluster(bos1k4, data = bos1, geom = "point") +
+  ggtitle("k = 4") + theme(plot.title = element_text(hjust = 0.5))
+plot1k5 <- fviz_cluster(bos1k5, data = bos1, geom = "point") +
+  ggtitle("k = 5") + theme(plot.title = element_text(hjust = 0.5))
+
+grid.arrange(plot1k2, plot1k3, plot1k4, plot1k5, nrow = 2)
+
+
+
+plot2k2 <- fviz_cluster(bos2k2, data = bos2, geom = "point") +
+  ggtitle("k = 2") + theme(plot.title = element_text(hjust = 0.5))
+plot2k3 <- fviz_cluster(bos2k3, data = bos2, geom = "point") +
+  ggtitle("k = 3") + theme(plot.title = element_text(hjust = 0.5))
+plot2k4 <- fviz_cluster(bos2k4, data = bos2, geom = "point") +
+  ggtitle("k = 4") + theme(plot.title = element_text(hjust = 0.5))
+plot2k5 <- fviz_cluster(bos2k5, data = bos2, geom = "point") +
+  ggtitle("k = 5") + theme(plot.title = element_text(hjust = 0.5))
+
+grid.arrange(plot2k2, plot2k3, plot2k4, plot2k5, nrow = 2)
+
+```
+
+
+## Plot k = 2 clusters for 1990-2000 and 2000-2010 data
+
+```{r}
+
+plot1 <- fviz_cluster(bos1k2, data = bos1, geom = "point") +
+  ggtitle("1990-2000 Data with k = 2 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+plot2 <- fviz_cluster(bos2k2, data = bos2, geom = "point") +
+  ggtitle("2000-2010 Data with k = 2 Clusters") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+grid.arrange(plot1, plot2, nrow = 1)
+
+```
+
+
+# Plotting clusters in Boston geography
+
+```{r message=FALSE, warning=FALSE}
+
+# Read in Massachusetts data
+tractsMA <- read_csv("census-csv/tracts_geography.csv") %>% 
+  filter(USPS == "MA")
+
+# Keep only Suffolk County (FIPS: 25025)
+tracts <- tractsMA[grepl("^25025", tractsMA$GEOID), ]
+# Derive the GEOID from the tract codes
+bos$GEOID <- as.numeric(paste(25025, 
+                                  sprintf("%06d", bos$Census.Tract.Code),
+                                  sep = ""
+                                  )
+                            )
+# Join datasets on GEOID
+geo <- bos %>% left_join(tracts) %>% as.data.frame() 
+# Add cluster assignments from k-means
+geo$Cluster90.00 <- bos1k2$cluster
+geo$Cluster00.10 <- bos2k2$cluster
+
+# Connect to Google APIs with your key:
+ggmap::register_google(key = "AIzaSyCRa3Dr1YXs8SPRULN0mJl6WA1pdknrm90")
+
+# Determine the coordinates of Boston:
+center <- geocode("Boston, Massachusetts", source = "google")
+
+# Generate the Google map of Boston:
+bosmap <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12)
+bosmap + 
+  geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
+                             color = as.factor(geo$Cluster00.10), size = 2)) +
+  scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
+  scale_size(guide = 'none') +
+  labs(title = "Boston Neighborhood Clusters
+Proportion of Change from 2000-2010", color = "Cluster") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+## Hierarchical Clustering
+
+**Note: this does not work for proportional data - I will retain the hierarchical clustering results obtained with the raw data for all three years**
+
+```{r}
+
+# ALL
+distbos <- dist(scale(bos %>% select(4:35)))
+hcbos <- hclust(distbos)
+plot(hcbos, cex = 0.65, main = NULL) + 
+  title(main = "Cluster Dendrogram for Boston Census Tracts")
+
+# 1990 - 2000:
+dist1 <- dist(bos1)
+hc1 <- hclust(dist1)
+plot(hc1, cex = 0.65, main = NULL) +
+  title(main = "1990-2000 Cluster Dendrogram")
+
+# 2000 - 2010:
+dist2 <- dist(bos2)
+hc2 <- hclust(dist2)
+plot(hc2, cex = 0.65, main = NULL) +
+  title(main = "2000-2010 Cluster Dendrogram")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

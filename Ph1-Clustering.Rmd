@@ -23,7 +23,7 @@ library(dplyr)
 ```{r Preparing, message=FALSE, warning=FALSE}
 
 #bos <- read_csv("bos_all.csv")
-bos <- read_csv("census-csv/census_suffolk_standardized.csv")
+bos <- read_csv("census-csv/prop_change_suffolk_labeled.csv")
 head(bos)
 
 # Removing rows with missing data --> 119 obs of 19 variables using bos_all
@@ -276,6 +276,12 @@ plot10 <- fviz_cluster(k2d10, data = d10scaled, geom = "point") +
 
 grid.arrange(plot90, plot00, plot10, nrow = 1)
 
+
+comp90 <- d90 %>%
+  mutate(Cluster = k2d90$cluster) %>%
+  group_by(Cluster) %>%
+  summarise_all("mean")
+
 ```
 
 
@@ -379,7 +385,7 @@ ggmap(get_stamenmap(bbox, zoom = 10, maptype = "terrain-lines")) +
 ```{r}
 
 # Connect to Google APIs with your key:
-ggmap::register_google(key = "AIzaSyCRa3Dr1YXs8SPRULN0mJl6WA1pdknrm90")
+ggmap::register_google(key = "YOUR KEY")
 
 # Determine the coordinates of Boston:
 center <- geocode("Boston, Massachusetts", source = "google")
