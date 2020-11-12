@@ -1,0 +1,394 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0005_ds176_20105_2010_tract'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2006-2010
+Geographic level: Census Tract (by State--County)
+Dataset:          2010 American Community Survey: 5-Year Data [2006-2010, Block Groups & Larger Areas]
+   NHGIS code:    2006_2010_ACS5a
+   NHGIS ID:      ds176
+Breakdown(s):     Geographic Subarea:
+                     Total area (00)
+Data type(s):     (E) Estimates
+                  (M) Margins of error
+ 
+Tables:
+ 
+1. Units in Structure
+   Universe:    Housing units
+   Source code: B25024
+   NHGIS code:  JSA
+ 
+2. Tenure by Units in Structure
+   Universe:    Occupied housing units
+   Source code: B25032
+   NHGIS code:  JSB
+ 
+3. Median Contract Rent (Dollars)
+   Universe:    Renter-occupied housing units paying cash rent
+   Source code: B25058
+   NHGIS code:  JSZ
+ 
+4. Median Gross Rent (Dollars)
+   Universe:    Renter-occupied housing units paying cash rent
+   Source code: B25064
+   NHGIS code:  JS5
+ 
+5. Bedrooms by Gross Rent
+   Universe:    Renter-occupied housing units
+   Source code: B25068
+   NHGIS code:  JS9
+ 
+6. Median Gross Rent as a Percentage of Household Income in the Past 12 Months (Dollars)
+   Universe:    Renter-occupied housing units paying cash rent
+   Source code: B25071
+   NHGIS code:  JTC
+ 
+7. Median Value (Dollars)
+   Universe:    Owner-occupied housing units
+   Source code: B25077
+   NHGIS code:  JTI
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place Code
+        TRACTA:      Census Tract Code
+        BLKGRPA:     Block Group Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Reservation with Trust Lands; trust lands only Code
+        AITSCEA:     Tribal Subdivision/Remainder Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        NECTAA:      New England City and Town Area Code
+        CNECTAA:     Combined New England City and Town Area Code
+        NECTADIVA:   New England City and Town Area Division Code
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (111th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        PUMA5A:      Public Use Microdata Sample Area (PUMA) Code
+        BTTRA:       Tribal Census Tract Code
+        BTBGA:       Tribal Block Group Code
+ 
+Data Type (E):
+    Estimates
+ 
+        NAME_E:      Area Name
+ 
+    Table 1:     Units in Structure
+    Universe:    Housing units
+    Source code: B25024
+    NHGIS code:  JSA
+        JSAE001:     Total
+        JSAE002:     1, detached
+        JSAE003:     1, attached
+        JSAE004:     2
+        JSAE005:     3 or 4
+        JSAE006:     5 to 9
+        JSAE007:     10 to 19
+        JSAE008:     20 to 49
+        JSAE009:     50 or more
+        JSAE010:     Mobile home
+        JSAE011:     Boat, RV, van, etc.
+ 
+    Table 2:     Tenure by Units in Structure
+    Universe:    Occupied housing units
+    Source code: B25032
+    NHGIS code:  JSB
+        JSBE001:     Total
+        JSBE002:     Owner-occupied housing units
+        JSBE003:     Owner-occupied housing units: 1, detached
+        JSBE004:     Owner-occupied housing units: 1, attached
+        JSBE005:     Owner-occupied housing units: 2
+        JSBE006:     Owner-occupied housing units: 3 or 4
+        JSBE007:     Owner-occupied housing units: 5 to 9
+        JSBE008:     Owner-occupied housing units: 10 to 19
+        JSBE009:     Owner-occupied housing units: 20 to 49
+        JSBE010:     Owner-occupied housing units: 50 or more
+        JSBE011:     Owner-occupied housing units: Mobile home
+        JSBE012:     Owner-occupied housing units: Boat, RV, van, etc.
+        JSBE013:     Renter-occupied housing units
+        JSBE014:     Renter-occupied housing units: 1, detached
+        JSBE015:     Renter-occupied housing units: 1, attached
+        JSBE016:     Renter-occupied housing units: 2
+        JSBE017:     Renter-occupied housing units: 3 or 4
+        JSBE018:     Renter-occupied housing units: 5 to 9
+        JSBE019:     Renter-occupied housing units: 10 to 19
+        JSBE020:     Renter-occupied housing units: 20 to 49
+        JSBE021:     Renter-occupied housing units: 50 or more
+        JSBE022:     Renter-occupied housing units: Mobile home
+        JSBE023:     Renter-occupied housing units: Boat, RV, van, etc.
+ 
+    Table 3:     Median Contract Rent (Dollars)
+    Universe:    Renter-occupied housing units paying cash rent
+    Source code: B25058
+    NHGIS code:  JSZ
+        JSZE001:     Median contract rent
+ 
+    Table 4:     Median Gross Rent (Dollars)
+    Universe:    Renter-occupied housing units paying cash rent
+    Source code: B25064
+    NHGIS code:  JS5
+        JS5E001:     Median gross rent
+ 
+    Table 5:     Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  JS9
+        JS9E001:     Total
+        JS9E002:     No bedroom
+        JS9E003:     No bedroom: With cash rent
+        JS9E004:     No bedroom: With cash rent: Less than $200
+        JS9E005:     No bedroom: With cash rent: $200 to $299
+        JS9E006:     No bedroom: With cash rent: $300 to $499
+        JS9E007:     No bedroom: With cash rent: $500 to $749
+        JS9E008:     No bedroom: With cash rent: $750 to $999
+        JS9E009:     No bedroom: With cash rent: $1,000 or more
+        JS9E010:     No bedroom: No cash rent
+        JS9E011:     1 bedroom
+        JS9E012:     1 bedroom: With cash rent
+        JS9E013:     1 bedroom: With cash rent: Less than $200
+        JS9E014:     1 bedroom: With cash rent: $200 to $299
+        JS9E015:     1 bedroom: With cash rent: $300 to $499
+        JS9E016:     1 bedroom: With cash rent: $500 to $749
+        JS9E017:     1 bedroom: With cash rent: $750 to $999
+        JS9E018:     1 bedroom: With cash rent: $1,000 or more
+        JS9E019:     1 bedroom: No cash rent
+        JS9E020:     2 bedrooms
+        JS9E021:     2 bedrooms: With cash rent
+        JS9E022:     2 bedrooms: With cash rent: Less than $200
+        JS9E023:     2 bedrooms: With cash rent: $200 to $299
+        JS9E024:     2 bedrooms: With cash rent: $300 to $499
+        JS9E025:     2 bedrooms: With cash rent: $500 to $749
+        JS9E026:     2 bedrooms: With cash rent: $750 to $999
+        JS9E027:     2 bedrooms: With cash rent: $1,000 or more
+        JS9E028:     2 bedrooms: No cash rent
+        JS9E029:     3 or more bedrooms
+        JS9E030:     3 or more bedrooms: With cash rent
+        JS9E031:     3 or more bedrooms: With cash rent: Less than $200
+        JS9E032:     3 or more bedrooms: With cash rent: $200 to $299
+        JS9E033:     3 or more bedrooms: With cash rent: $300 to $499
+        JS9E034:     3 or more bedrooms: With cash rent: $500 to $749
+        JS9E035:     3 or more bedrooms: With cash rent: $750 to $999
+        JS9E036:     3 or more bedrooms: With cash rent: $1,000 or more
+        JS9E037:     3 or more bedrooms: No cash rent
+ 
+    Table 6:     Median Gross Rent as a Percentage of Household Income in the Past 12 Months (Dollars)
+    Universe:    Renter-occupied housing units paying cash rent
+    Source code: B25071
+    NHGIS code:  JTC
+        JTCE001:     Median gross rent as a percentage of household income
+ 
+    Table 7:     Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  JTI
+        JTIE001:     Median value (dollars)
+ 
+Data Type (M):
+    Margins of error
+ 
+        NAME_M:      Area Name
+ 
+    Table 1:     Units in Structure
+    Universe:    Housing units
+    Source code: B25024
+    NHGIS code:  JSA
+        JSAM001:     Total
+        JSAM002:     1, detached
+        JSAM003:     1, attached
+        JSAM004:     2
+        JSAM005:     3 or 4
+        JSAM006:     5 to 9
+        JSAM007:     10 to 19
+        JSAM008:     20 to 49
+        JSAM009:     50 or more
+        JSAM010:     Mobile home
+        JSAM011:     Boat, RV, van, etc.
+ 
+    Table 2:     Tenure by Units in Structure
+    Universe:    Occupied housing units
+    Source code: B25032
+    NHGIS code:  JSB
+        JSBM001:     Total
+        JSBM002:     Owner-occupied housing units
+        JSBM003:     Owner-occupied housing units: 1, detached
+        JSBM004:     Owner-occupied housing units: 1, attached
+        JSBM005:     Owner-occupied housing units: 2
+        JSBM006:     Owner-occupied housing units: 3 or 4
+        JSBM007:     Owner-occupied housing units: 5 to 9
+        JSBM008:     Owner-occupied housing units: 10 to 19
+        JSBM009:     Owner-occupied housing units: 20 to 49
+        JSBM010:     Owner-occupied housing units: 50 or more
+        JSBM011:     Owner-occupied housing units: Mobile home
+        JSBM012:     Owner-occupied housing units: Boat, RV, van, etc.
+        JSBM013:     Renter-occupied housing units
+        JSBM014:     Renter-occupied housing units: 1, detached
+        JSBM015:     Renter-occupied housing units: 1, attached
+        JSBM016:     Renter-occupied housing units: 2
+        JSBM017:     Renter-occupied housing units: 3 or 4
+        JSBM018:     Renter-occupied housing units: 5 to 9
+        JSBM019:     Renter-occupied housing units: 10 to 19
+        JSBM020:     Renter-occupied housing units: 20 to 49
+        JSBM021:     Renter-occupied housing units: 50 or more
+        JSBM022:     Renter-occupied housing units: Mobile home
+        JSBM023:     Renter-occupied housing units: Boat, RV, van, etc.
+ 
+    Table 3:     Median Contract Rent (Dollars)
+    Universe:    Renter-occupied housing units paying cash rent
+    Source code: B25058
+    NHGIS code:  JSZ
+        JSZM001:     Median contract rent
+ 
+    Table 4:     Median Gross Rent (Dollars)
+    Universe:    Renter-occupied housing units paying cash rent
+    Source code: B25064
+    NHGIS code:  JS5
+        JS5M001:     Median gross rent
+ 
+    Table 5:     Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  JS9
+        JS9M001:     Total
+        JS9M002:     No bedroom
+        JS9M003:     No bedroom: With cash rent
+        JS9M004:     No bedroom: With cash rent: Less than $200
+        JS9M005:     No bedroom: With cash rent: $200 to $299
+        JS9M006:     No bedroom: With cash rent: $300 to $499
+        JS9M007:     No bedroom: With cash rent: $500 to $749
+        JS9M008:     No bedroom: With cash rent: $750 to $999
+        JS9M009:     No bedroom: With cash rent: $1,000 or more
+        JS9M010:     No bedroom: No cash rent
+        JS9M011:     1 bedroom
+        JS9M012:     1 bedroom: With cash rent
+        JS9M013:     1 bedroom: With cash rent: Less than $200
+        JS9M014:     1 bedroom: With cash rent: $200 to $299
+        JS9M015:     1 bedroom: With cash rent: $300 to $499
+        JS9M016:     1 bedroom: With cash rent: $500 to $749
+        JS9M017:     1 bedroom: With cash rent: $750 to $999
+        JS9M018:     1 bedroom: With cash rent: $1,000 or more
+        JS9M019:     1 bedroom: No cash rent
+        JS9M020:     2 bedrooms
+        JS9M021:     2 bedrooms: With cash rent
+        JS9M022:     2 bedrooms: With cash rent: Less than $200
+        JS9M023:     2 bedrooms: With cash rent: $200 to $299
+        JS9M024:     2 bedrooms: With cash rent: $300 to $499
+        JS9M025:     2 bedrooms: With cash rent: $500 to $749
+        JS9M026:     2 bedrooms: With cash rent: $750 to $999
+        JS9M027:     2 bedrooms: With cash rent: $1,000 or more
+        JS9M028:     2 bedrooms: No cash rent
+        JS9M029:     3 or more bedrooms
+        JS9M030:     3 or more bedrooms: With cash rent
+        JS9M031:     3 or more bedrooms: With cash rent: Less than $200
+        JS9M032:     3 or more bedrooms: With cash rent: $200 to $299
+        JS9M033:     3 or more bedrooms: With cash rent: $300 to $499
+        JS9M034:     3 or more bedrooms: With cash rent: $500 to $749
+        JS9M035:     3 or more bedrooms: With cash rent: $750 to $999
+        JS9M036:     3 or more bedrooms: With cash rent: $1,000 or more
+        JS9M037:     3 or more bedrooms: No cash rent
+ 
+    Table 6:     Median Gross Rent as a Percentage of Household Income in the Past 12 Months (Dollars)
+    Universe:    Renter-occupied housing units paying cash rent
+    Source code: B25071
+    NHGIS code:  JTC
+        JTCM001:     Median gross rent as a percentage of household income
+ 
+    Table 7:     Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  JTI
+        JTIM001:     Median value (dollars)
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 15.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2020. 
+        http://doi.org/10.18128/D050.V15.0
+
+    * Publications and research reports employing school attendance areas data 
+      (either tabular or GIS) must cite it appropriately. The citation should 
+      include the following:
+
+        The College of William and Mary and the Minnesota Population Center.
+        School Attendance Boundary Information System (SABINS): Version 1.0.
+        Minneapolis, MN: University of Minnesota 2011.
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+    * If possible, citations involving school attendance areas should also include
+      the URL for the SABINS site:
+
+        http://www.sabinsdata.org/.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455
