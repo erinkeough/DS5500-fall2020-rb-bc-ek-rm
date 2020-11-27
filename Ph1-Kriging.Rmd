@@ -1,0 +1,107 @@
+---
+title: "DS 5500 Phase I - Kriging"
+author: "Erin Keough"
+date: "10/28/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(magrittr)
+library(sp)
+library(gstat)
+library(readr)
+```
+
+
+# Kriging method
+
+Kriging is a geostatistics method that predicts the value in a geographic area given a set of measurements. Also known as Gaussian process regression, Kriging is a method of interpolation for which the interpolated values are modeled by a Gaussian process governed by prior covariances.
+
+## Prepare the data
+
+```{r message=FALSE, warning=FALSE}
+
+# Read in the two dataframes 
+suffolk <- read_csv("census-csv/prop_change_suffolk_labeled.csv")
+tractsMA <- read_csv("census-csv/tracts_geography.csv") %>% filter(USPS == "MA")
+
+# Keep only Suffolk County (FIPS: 25025)
+tracts <- tractsMA[grepl("^25025", tractsMA$GEOID), ]
+
+# Add leading zeros to the Census tracts & form GEOID
+suffolk$GEOID <- as.numeric(paste(25025, 
+                                  sprintf("%06d", suffolk$Census.Tract.Code),
+                                  sep = ""
+                                  )
+                            )
+
+# Join datasets on GEOID
+geo <- suffolk %>% 
+  left_join(tracts %>% select(c("GEOID", "INTPTLAT", "INTPTLONG"))) %>%
+  as.data.frame() 
+
+geo1 <- geo %>% filter(Data.Measurement.Year == "1990-2000")
+geo2 <- geo %>% filter(Data.Measurement.Year == "2000-2010")
+
+```
+
+
+```{r}
+
+### 1990 - 2000 ###
+
+# Convert to Spatial Points Data Frame (SPDF)
+coordinates(geo1) <- ~ INTPTLAT + INTPTLONG
+
+### 2000 - 2010 ###
+
+# Convert to Spatial Points Data Frame (SPDF)
+coordinates(geo2) <- ~ INTPTLAT + INTPTLONG
+
+```
+
+
+## Fitting a variogram
+
+```{r}
+
+### 1990 - 2000 ###
+
+#geo1 %>% as.data.frame
+# Calculate the sample variogram
+vario1 <- variogram(prop.change.population.race.White ~ 1, 
+                    data = na.omit(geo1@data))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
