@@ -8,6 +8,9 @@ library(readr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(cluster)
+library(factoextra)
+library(ggmap)
 
 rm(list = ls())
 
@@ -129,7 +132,14 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                                      "Albuquerque, NM" = "abq"), # Bernalillo
                          selected = "boston"), # Default choice
       
-      # 
+      br(),
+      
+      # Conditional panel - Select # of clusters -------------------------------
+      conditionalPanel(condition = "input.selection == clustering",
+                       radioButtons(inputId = "k", label = "Select the number of clusters:",
+                                    choices = list("2" = 2, "3" = 3, "4" = 4, "5" = 5),
+                                    selected = 2))
+      
       
     ),
     
@@ -137,7 +147,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),
       
       br(),
       
-      plotOutput(outputId = "labelplot")
+      plotOutput(outputId = "mainplot")
 
     )
     
@@ -183,55 +193,234 @@ server <- function(input, output) {
   })
   
   
-  # EDA OUTPUT PLOT:
-  output$labelplot <- renderPlot({ 
+  
+  # REACTIVE CITY SELECTOR (clustering -- there will be TWO reactive variables for each timeframe):
+  clusdata1 <- reactive({
     
-    plots <- list()
+    req(input$city)
+    l <- list()
     
-    # Iterate through the datasets
-    for (i in 1:length(datalist())) {
-
-      df <- datalist()[[i]]
-
+    # Iterate through the number of chosen cities ( = length of the list)
+    for (i in 1:length(input$city)) {
+      
       # Add each city's dataset to the list
       if (input$city[i] == "boston") {
-        name <- "Boston, MA"
+        l[[i]] <- c.suffolk.1
       } else if (input$city[i] == "abq") {
-        name <- "Albuquerque, NM"
+        l[[i]] <- c.bernalillo.1
       } else if (input$city[i] == "elpaso") {
-        name <- "El Paso, TX"
+        l[[i]] <- c.elpaso.1
       } else if (input$city[i] == "fresno") {
-        name <- "Fresno, CA"
+        l[[i]] <- c.fresno.1
       } else if (input$city[i] == "sanfran") {
-        name <- "San Francisco, CA"
+        l[[i]] <- c.sanfran.1
       } else if (input$city[i] == "omaha") {
-        name <- "Omaha, NE"
+        l[[i]] <- c.douglas.1
       } else if (input$city[i] == "nashville") {
-        name <- "Nashville, TN"
+        l[[i]] <- c.davidson.1
       } else if (input$city[i] == "minneapolis") {
-        name <- "Minneapolis, MN"
+        l[[i]] <- c.hennepin.1
       }
-      
-      p <- ggplot(df) +
-        geom_bar(aes(x = Data.Measurement.Year)) + #, fill = Gent_Label)) +   <- REPLACE VARIABLE
-        labs(title = name, x = "Gentrification Label", y = "Count") +
-        theme(plot.title = element_text(hjust = 0.5, size = 12),
-              legend.position = "none")
-
-      plots[[i]] <- p
-      plot(plots[[i]])
       
     }
     
-    # The only thing I need to fix here is making the top label larger than the plot title:
-    do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
-                              top = "Gentrification Labels for City Census Tracts"))
-  
+    l
+    
+  })
+  clusdata2 <- reactive({
+    
+    req(input$city)
+    l <- list()
+    
+    # Iterate through the number of chosen cities ( = length of the list)
+    for (i in 1:length(input$city)) {
+      
+      # Add each city's dataset to the list
+      if (input$city[i] == "boston") {
+        l[[i]] <- c.suffolk.2
+      } else if (input$city[i] == "abq") {
+        l[[i]] <- c.bernalillo.2
+      } else if (input$city[i] == "elpaso") {
+        l[[i]] <- c.elpaso.2
+      } else if (input$city[i] == "fresno") {
+        l[[i]] <- c.fresno.2
+      } else if (input$city[i] == "sanfran") {
+        l[[i]] <- c.sanfran.2
+      } else if (input$city[i] == "omaha") {
+        l[[i]] <- c.douglas.2
+      } else if (input$city[i] == "nashville") {
+        l[[i]] <- c.davidson.2
+      } else if (input$city[i] == "minneapolis") {
+        l[[i]] <- c.hennepin.2
+      }
+      
+    }
+    
+    l
+    
+  })
+  numclusters <- reactive({
+    
+    req(input$k)
+    input$k
+    
   })
   
-  # CLUSTERING OUTPUT PLOT:
   
   
+  # EDA OUTPUT PLOT:
+  output$mainplot <- renderPlot({ 
+    
+    if (input$selection == "eda") {
+      
+      plots <- list()
+      
+      # Iterate through the datasets
+      for (i in 1:length(datalist())) {
+  
+        df <- datalist()[[i]]
+  
+        # Grab the city name for the plot title
+        if (input$city[i] == "boston") {
+          name <- "Boston, MA"
+        } else if (input$city[i] == "abq") {
+          name <- "Albuquerque, NM"
+        } else if (input$city[i] == "elpaso") {
+          name <- "El Paso, TX"
+        } else if (input$city[i] == "fresno") {
+          name <- "Fresno, CA"
+        } else if (input$city[i] == "sanfran") {
+          name <- "San Francisco, CA"
+        } else if (input$city[i] == "omaha") {
+          name <- "Omaha, NE"
+        } else if (input$city[i] == "nashville") {
+          name <- "Nashville, TN"
+        } else if (input$city[i] == "minneapolis") {
+          name <- "Minneapolis, MN"
+        }
+        
+        p <- ggplot(df) +
+          # THE PLOTTED VARIABLE WILL BE REPLACED BY GENTRIFICATION LABELS ONCE DONE:
+          geom_bar(aes(x = Data.Measurement.Year)) + #, fill = Gent_Label)) +  
+          labs(title = name, x = "Gentrification Label", y = "Count") +
+          theme(plot.title = element_text(hjust = 0.5, size = 12),
+                legend.position = "none")
+  
+        plots[[i]] <- p
+        plot(plots[[i]])
+        
+      }
+      
+      # The only thing I need to fix here is making the top label larger than the plot title:
+      do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
+                                top = "Gentrification Labels for City Census Tracts"))
+  
+      
+      
+      
+    } else if (input$selection == "clustering"){
+      
+        tracts <- read_csv("data/tracts_geography.csv")
+        
+        plots <- list()
+        set.seed(1)
+        
+        # Iterate through the datasets
+        for (i in 1:length(clusdata1())) {
+          
+          df1 <- clusdata1()[[i]]
+          df2 <- clusdata2()[[i]]
+
+          kmeans1 <- kmeans(df1, centers = numclusters(), nstart = 25)
+          kmeans2 <- kmeans(df2, centers = numclusters(), nstart = 25)
+          
+          # Get city-specific data
+          if (input$city[i] == "boston") {
+            t <- tracts[grepl("^25025", tracts$GEOID), ]
+            fips <- 25025
+            fulldata <- d.suffolk
+            code <- "Boston, Massachusetts"
+          } else if (input$city[i] == "abq") {
+            t <- tracts[grepl("^35001", tracts$GEOID), ]
+            fips <- 35001
+            fulldata <- d.bernalillo
+            code <- "Albuquerque, New Mexico"
+          } else if (input$city[i] == "elpaso") {
+            t <- tracts[grepl("^48141", tracts$GEOID), ]
+            fips <- 48141
+            fulldata <- d.elpaso
+            code <- "El Paso, Texas"
+          } else if (input$city[i] == "fresno") {
+            t <- tracts[grepl("^06019", tracts$GEOID), ]
+            fips <- 06019
+            fulldata <- d.fresno
+            code <- "Fresno, California"
+          } else if (input$city[i] == "sanfran") {
+            t <- tracts[grepl("^06075", tracts$GEOID), ]
+            fips <- 06075
+            fulldata <- d.sanfran
+            code <- "San Francisco, California"
+          } else if (input$city[i] == "omaha") {
+            t <- tracts[grepl("^08035", tracts$GEOID), ]
+            fips <- 08035
+            fulldata <- d.douglas
+            code <- "Omaha, Nebraska"
+          } else if (input$city[i] == "nashville") {
+            t <- tracts[grepl("^47037", tracts$GEOID), ]
+            fips <- 47037
+            fulldata <- d.davidson
+            code <- "Nashville, Tennessee"
+          } else if (input$city[i] == "minneapolis") {
+            t <- tracts[grepl("^27053", tracts$GEOID), ]
+            fips <- 27053
+            fulldata <- d.hennepin
+            code <- "Minneapolis, Minnesota"
+          }
+          
+          # Get full FIPS code
+          fulldata$GEOID <- as.numeric(paste(fips, 
+                                             sprintf("%06d", fulldata$Census.Tract.Code),
+                                             sep = ""))
+          
+          # Join datasets on GEOID
+          geo <- fulldata %>% left_join(t) %>% as.data.frame() 
+          # Add cluster assignments from k-means
+          geo$Cluster90.00 <- kmeans1$cluster
+          geo$Cluster00.10 <- kmeans2$cluster
+          
+          # Connect to Google APIs with your key:
+          ggmap::register_google(key = "YOUR API KEY HERE")
+          
+          # Determine the coordinates of the city:
+          center <- geocode(code, source = "google")
+          
+          p1 <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12) +
+            geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
+                                       color = as.factor(geo$Cluster90.00), size = 2)) +
+            #scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
+            scale_size(guide = 'none') +
+            labs(title = code, color = "Cluster") 
+          p2 <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12) +
+            geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
+                                       color = as.factor(geo$Cluster00.10), size = 2)) +
+            #scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
+            scale_size(guide = 'none') +
+            labs(color = "Cluster")
+          
+          p <- grid.arrange(p1, p2, ncol = 2)
+          
+          plots[[i]] <- p
+          plot(plots[[i]])
+          
+        }
+        
+        # The only thing I need to fix here is making the top label larger than the plot title:
+        do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
+                                  top = "Cluster Assignments from 1990-2000 versus 2000-2010"))
+        
+    }
+      
+  })
   
 }
   
