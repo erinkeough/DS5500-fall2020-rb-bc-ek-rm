@@ -9,6 +9,7 @@ library(tidyverse)
 library(caret)
 library(nnet)
 library(MASS)
+library(glmnet)
 ```
 
 
@@ -56,9 +57,41 @@ imbal_valid <- suffolk_df[-trainIndex,]
 ```{r}
 lda_cvfit<-lda(Gent_Label~.-Census.Tract.Code, data = suffolk_df, cv=T)
 lda_cvpred<-predict(lda_cvfit, suffolk_df)
-mean(lda_cvpred$class==suffolk_df$Gent_Label)
+lda_correct<-(lda_cvpred$class==suffolk_df$Gent_Label)
+
+ROC_lda<-simple_roc(lda_correct, lda_cvpred$posterior[,1])
+ROC_lda<-pROC::roc(response=(suffolk_df$Gent_Label=="Eligible"), predictor=lda_cvpred$posterior[,1])
+acc_full<-mean(lda_cvpred$class==suffolk_df$Gent_Label)
+
+ROC_lda<-pROC::roc(response=(suffolk_df$Gent_Label=="Eligible"), predictor=lda_pred_intu$posterior[,1])
+
 ```
-Accuracy 
+
+SCRATCH WORK
+```{r}
+plot(lda_intu, panel=panel.lda)
+
+suff_data_matrix<-model.matrix(Gent_Label~.-Data.Measurement.Year-Census.Tract.Code-Gent_Label-1,data = suffolk_df)
+response<-suffolk_df$Gent_Label
+lasso<-glmnet(suff_data_matrix, response, alpha = 1, family="multinomial", type.multinomial = "grouped")
+cv.lasso<-cv.glmnet(suff_data_matrix, response, alpha=1, family="multinomial")
+
+lbs_fun <- function(fit, offset_x=1, ...) {
+  L <- length(fit$lambda)
+  x <- log(fit$lambda[L])+ offset_x
+  
+  labs <- lasso[["beta"]][["Eligible"]]@Dimnames[[1]]
+  return(list(x,labs))
+}
+lbls<-lbs_fun(lasso)
+plot(lasso, xvar = "lambda", label=T, type.coef = "Eligible")
+text(lbls[[1]], ,labels = lbls[[2]])
+abline(v=log(cv.lasso$lambda.min), col="red", lty=2)
+plot(cv.lasso)
+
+```
+
+
 
 
 ### Fit with intuitive subset
@@ -66,29 +99,18 @@ Accuracy
 Chosen by examining PCA and inuition
 
 ```{r}
-suff_intu<-suffolk_df%>%dplyr::select(prop.change.population.young.adult,
-                               prop.change.population.race.White,
-                               prop.change.housing.householder.race.White,
-                               prop.change.household.size,
+suff_intu<-suffolk_df%>%dplyr::select(prop.change.housing.renter.occupied.householder.race.White,
+                                      prop.change.housing.owner.occupied.householder.race.Other,
+                                      prop.change.housing.owner.occupied.householder.race.Black,
                                Gent_Label)
 
 lda_intu<-lda(Gent_Label~., data = suff_intu, cv=T)
 lda_pred_intu<-predict(lda_intu, suffolk_df)
-mean(lda_pred_intu$class==suffolk_df$Gent_Label)
+acc_intu<-mean(lda_pred_intu$class==suffolk_df$Gent_Label)
 
 ```
 
 
 
-```{r}
 
-rf_fit<-randomForest(Gent_Label~., data=suff_numeric)
-```
-
-
-```{r}
-#Run multinomial logistic regression
-multinomModel <- multinom(Gent_Label~.-Census.Tract.Code, data = imbal_train)
-summary(multinomModel)
-```
 
