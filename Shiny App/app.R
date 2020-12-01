@@ -67,11 +67,14 @@ c.douglas.2 <- scale(d.douglas %>%
 # EL PASO COUNTY
 c.elpaso.1 <- scale(d.elpaso %>%
                        filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
+                       select(5:36) %>% # First time frame & keep numeric data cols
+                       complete.cases())
+  
 c.elpaso.2 <- scale(d.elpaso %>%
                        filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
-
+                       select(5:36) %>% # Second time frame & keep numeric data cols
+                       complete.cases())
+                      
 # FRESNO COUNTY
 c.fresno.1 <- scale(d.fresno %>%
                        filter(Data.Measurement.Year == "1990-2000") %>%
@@ -319,24 +322,27 @@ server <- function(input, output) {
       
       
     } else if (input$selection == "clustering"){
-      
+        
+        # Grab the lat/long for each census tract in the US:
         tracts <- read_csv("data/tracts_geography.csv")
         
         plots <- list()
         set.seed(1)
         
-        # Iterate through the datasets
+        # Iterate through the cluster datasets for each chosen city:
         for (i in 1:length(clusdata1())) {
           
-          df1 <- clusdata1()[[i]]
-          df2 <- clusdata2()[[i]]
-
-          kmeans1 <- kmeans(df1, centers = numclusters(), nstart = 25)
-          kmeans2 <- kmeans(df2, centers = numclusters(), nstart = 25)
+          df1 <- as.data.frame(clusdata1()[[i]])
+          df2 <- as.data.frame(clusdata2()[[i]])
+          
+          # Update 01 DECEMBER: the code has no problems with more than 2 clusters,
+          # the issue seems to be with getting k from numclusters():
+          kmeans1 <- kmeans(df1, centers = 3, nstart = 25)
+          kmeans2 <- kmeans(df2, centers = 3, nstart = 25)
           
           # Get city-specific data
           if (input$city[i] == "boston") {
-            t <- tracts[grepl("^25025", tracts$GEOID), ]
+            t <- tracts[grepl("^25025", tracts$GEOID), ] # Keep tracts that begin w/ FIPS code
             fips <- 25025
             fulldata <- d.suffolk
             code <- "Boston, Massachusetts"
@@ -389,7 +395,7 @@ server <- function(input, output) {
           geo$Cluster00.10 <- kmeans2$cluster
           
           # Connect to Google APIs with your key:
-          ggmap::register_google(key = "AIzaSyCRa3Dr1YXs8SPRULN0mJl6WA1pdknrm90")
+          ggmap::register_google(key = "YOUR KEY HERE")
           
           # Determine the coordinates of the city:
           center <- geocode(code, source = "google")
@@ -415,7 +421,7 @@ server <- function(input, output) {
         }
         
         # The only thing I need to fix here is making the top label larger than the plot title:
-        do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
+        do.call("grid.arrange", c(plots, ncol = 1,
                                   top = "Cluster Assignments from 1990-2000 versus 2000-2010"))
         
     }
