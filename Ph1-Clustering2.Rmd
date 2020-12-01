@@ -142,11 +142,14 @@ bosmap <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12)
 bosmap + 
   geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
                              color = as.factor(geo$Cluster00.10), size = 2)) +
+  geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT,
+                             color = as.factor(geo$Cluster00.10), size = 2)) +
   scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
   scale_size(guide = 'none') +
   labs(title = "Boston Neighborhood Clusters
 Proportion of Change from 2000-2010", color = "Cluster") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  facet_wrap(~ Data.Measurement.Year)
 
 ```
 
