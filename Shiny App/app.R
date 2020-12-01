@@ -115,9 +115,10 @@ ui <- fluidPage(theme = shinytheme("lumen"),
       # Select analysis type ---------------------------------------------------
       selectInput(inputId = "selection",
                   label = "Select the type of analysis to complete:",
-                  choices = c("Exploratory Data Analysis" = "eda",
+                  choices = c("Select analysis type" = "null",
+                              "Exploratory Data Analysis" = "eda",
                               "Clustering" = "clustering"),
-                  selected = "eda"
+                  selected = "null"
       ),
       
       br(),
@@ -274,7 +275,34 @@ server <- function(input, output) {
   # EDA OUTPUT PLOT:
   output$mainplot <- renderPlot({ 
     
-    if (input$selection == "eda") {
+    if (input$selection == "null") {
+      
+      locations <- data.frame(nrow = 8, ncol = 2)
+      locations[1,] <- geocode("Boston, Massachusetts", source = "google")
+      locations[2,] <- geocode("Albuquerque, New Mexico", source = "google")
+      locations[3,] <- geocode("El Paso, Texas", source = "google")
+      locations[4,] <- geocode("Omaha, Nebraska", source = "google")
+      locations[5,] <- geocode("Minneapolis, Minnesota", source = "google")
+      locations[6,] <- geocode("Fresno, California", source = "google")
+      locations[7,] <- geocode("San Francisco, California", source = "google")
+      locations[8,] <- geocode("Nashville, Tennessee", source = "google")
+      colnames(locations) <- c("Longitude", "Latitude")
+      
+      us_states <- map_data("state")
+      
+      ggplot() +
+        geom_polygon(data = us_states, aes(x = long, y = lat, group = group), 
+                     color = "gray30", fill = "bisque", size = 0.2) + guides(fill = FALSE) +
+        geom_point(data = locations, aes(x = Longitude, y = Latitude), 
+                   size = 4, color = "brown3") +
+        theme(axis.title = element_blank(), axis.line = element_blank(), axis.ticks = element_blank(),
+              axis.text = element_blank(), plot.background = element_blank(),
+              panel.grid = element_blank(), panel.background = element_blank())
+      
+      
+      
+      
+    } else if (input$selection == "eda") {
       
       plots <- list()
       
