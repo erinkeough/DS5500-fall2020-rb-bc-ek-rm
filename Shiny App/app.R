@@ -11,6 +11,7 @@ library(gridExtra)
 library(cluster)
 library(factoextra)
 library(ggmap)
+library(reshape2)
 
 rm(list = ls())
 
@@ -137,13 +138,26 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                          selected = "boston"), # Default choice
       
       br(),
+      hr(),
+      br(),
       
       # Conditional panel - Select # of clusters -------------------------------
-      conditionalPanel(condition = "input.selection == clustering",
-                       radioButtons(inputId = "k", label = "Select the number of clusters:",
-                                    choices = list("2" = 2, "3" = 3, "4" = 4, "5" = 5),
-                                    selected = 2))
+      conditionalPanel(condition = "input.selection == 'clustering'",
+                       radioButtons(inputId = "k", 
+                                    label = "Select the number of clusters:",
+                                    choices = list("2" = 2, 
+                                                   "3" = 3, 
+                                                   "4" = 4, 
+                                                   "5" = 5),
+                                    selected = 2)),
       
+      # Conditional panel - Select type of EDA ---------------------------------
+      conditionalPanel(condition = "input.selection == 'eda'",
+                       selectInput(inputId = "type", 
+                                    label = "Select the type of EDA you would like to complete:",
+                                    choices = list("Distribution of Tract Labels by City" = "tract", 
+                                                   "Household Ownsership over Time" = "race"),
+                                    selected = "tract"))
       
     ),
     
@@ -158,6 +172,8 @@ ui <- fluidPage(theme = shinytheme("lumen"),
   )
   
 )
+
+
 
 
 server <- function(input, output) {
@@ -192,6 +208,39 @@ server <- function(input, output) {
       
     }
 
+    l
+    
+  })
+  # REACTIVE CITY SELECTOR -- raw data:
+  rawdata <- reactive({
+    
+    req(input$city)
+    l <- list()
+    
+    # Iterate through the number of chosen cities ( = length of the list)
+    for (i in 1:length(input$city)) {
+      
+      # Add each city's dataset to the list
+      if (input$city[i] == "boston") {
+        l[[i]] <- read_csv("data/census_suffolk_standardized.csv")
+      } else if (input$city[i] == "abq") {
+        l[[i]] <- read_csv("data/census_bernalillo_standardized.csv")
+      } else if (input$city[i] == "elpaso") {
+        l[[i]] <- read_csv("data/census_elpaso_standardized.csv")
+      } else if (input$city[i] == "fresno") {
+        l[[i]] <- read_csv("data/census_fresno_standardized.csv")
+      } else if (input$city[i] == "sanfran") {
+        l[[i]] <- read_csv("data/census_sanfrancisco_standardized.csv")
+      } else if (input$city[i] == "omaha") {
+        l[[i]] <- read_csv("data/census_douglas_standardized.csv")
+      } else if (input$city[i] == "nashville") {
+        l[[i]] <- read_csv("data/census_davidson_standardized.csv")
+      } else if (input$city[i] == "minneapolis") {
+        l[[i]] <- read_csv("data/census_hennepin_standardized.csv")
+      }
+      
+    }
+    
     l
     
   })
@@ -309,8 +358,6 @@ server <- function(input, output) {
       # Iterate through the datasets
       for (i in 1:length(datalist())) {
   
-        df <- datalist()[[i]]
-  
         # Grab the city name for the plot title
         if (input$city[i] == "boston") {
           name <- "Boston, MA"
@@ -330,21 +377,58 @@ server <- function(input, output) {
           name <- "Minneapolis, MN"
         }
         
-        p <- ggplot(df) +
-          # THE PLOTTED VARIABLE WILL BE REPLACED BY GENTRIFICATION LABELS ONCE DONE:
-          geom_bar(aes(x = Data.Measurement.Year)) + #, fill = Gent_Label)) +  
-          labs(title = name, x = "Gentrification Label", y = "Count") +
-          theme(plot.title = element_text(hjust = 0.5, size = 12),
-                legend.position = "none")
+        if (input$type == "tract") {
+        
+          df <- datalist()[[i]]
+          
+          p <- ggplot(df) +
+            # THE PLOTTED VARIABLE WILL BE REPLACED BY GENTRIFICATION LABELS ONCE DONE:
+            geom_bar(aes(x = Data.Measurement.Year)) + #, fill = Gent_Label)) +  
+            labs(title = name, x = "Gentrification Label", y = "Count") +
+            theme(plot.title = element_text(hjust = 0.5, size = 12),
+                  legend.position = "none")
+          
+        } else if (input$type == "race") {
+          
+          df <- rawdata()[[i]]
+          df_new <- df %>%
+            transmute(
+              `Data Measurement Year` = Data.Measurement.Year,
+              `White Owner` = Housing.units..Owner.occupied...Householder.is.White..single.race.,
+              `Non-White Owner` = 
+              Housing.units..Owner.occupied...Householder.is.Black.or.African.American..single.race. +
+              Housing.units..Owner.occupied...Householder.is.American.Indian.and.Alaska.Native..single.race. +
+              Housing.units..Owner.occupied...Householder.is.Asian.and.Pacific.Islander..single.race. +
+              Housing.units..Owner.occupied...Householder.is.Some.Other.Race..single.race.
+              ) %>%
+            melt(id.vars = "Data Measurement Year", measure.vars = c("White Owner", "Non-White Owner"))
+          
+          print(head(df_new))
+          
+          p <- ggplot(df_new, aes(x = `Data Measurement Year`, y = value, fill = variable)) +
+            geom_bar(stat = "identity", position = "dodge") +
+            labs(title = name, y = "Count") +
+            theme(plot.title = element_text(hjust = 0.5, size = 12),
+                  legend.position = "none")
+
+        }
   
         plots[[i]] <- p
         plot(plots[[i]])
         
       }
       
+      
+      # ARRANGING THE GRIDS
       # The only thing I need to fix here is making the top label larger than the plot title:
-      do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
-                                top = "Gentrification Labels for City Census Tracts"))
+      
+      if (input$city == "tract") {
+        do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
+                                  top = "Gentrification Labels for City Census Tracts"))
+      } else if (input$type == "race") {
+        do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
+                                  top = "White versus Non-White Household Ownership"))
+      }
   
       
       
