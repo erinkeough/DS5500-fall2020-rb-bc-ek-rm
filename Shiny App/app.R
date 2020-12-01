@@ -395,7 +395,7 @@ server <- function(input, output) {
           geo$Cluster00.10 <- kmeans2$cluster
           
           # Connect to Google APIs with your key:
-          ggmap::register_google(key = "AIzaSyCRa3Dr1YXs8SPRULN0mJl6WA1pdknrm90")
+          ggmap::register_google(key = "YOUR KEY HERE")
           
           # Determine the coordinates of the city:
           center <- geocode(code, source = "google")
