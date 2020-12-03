@@ -12,6 +12,7 @@ library(cluster)
 library(factoextra)
 library(ggmap)
 library(reshape2)
+library(purrr)
 
 rm(list = ls())
 
@@ -22,83 +23,16 @@ rm(list = ls())
 setwd("~/GitHub/DS5500-fall2020-rb-bc-ek-rm/Shiny App")
 
 d.suffolk <- read_csv("data/prop_change_suffolk_labeled.csv")
-d.bernalillo <- read_csv("data/prop_change_bernalillo_unlabeled.csv")
-d.davidson <- read_csv("data/prop_change_davidson_unlabeled.csv")
-d.douglas <- read_csv("data/prop_change_douglas_unlabeled.csv")
-d.elpaso <- read_csv("data/prop_change_elpaso_unlabeled.csv")
-d.fresno <- read_csv("data/prop_change_fresno_unlabeled.csv")
-d.hennepin <- read_csv("data/prop_change_hennepin_unlabeled.csv")
-d.sanfran <- read_csv("data/prop_change_sanfrancisco_unlabeled.csv")
+d.bernalillo <- read_csv("data/prop_change_bernalillo_labeled.csv")
+d.davidson <- read_csv("data/prop_change_davidson_labeled.csv")
+d.douglas <- read_csv("data/prop_change_douglas_labeled.csv")
+d.elpaso <- read_csv("data/prop_change_elpaso_labeled.csv")
+d.fresno <- read_csv("data/prop_change_fresno_labeled.csv")
+d.hennepin <- read_csv("data/prop_change_hennepin_labeled.csv")
+d.sanfran <- read_csv("data/prop_change_sanfrancisco_labeled.csv")
 
 tracts <- read_csv("data/tracts_geography.csv")
 
-# Transform data that will be used for clustering ------------------------------
-# SUFFOLK COUNTY
-c.suffolk.1 <- scale(d.suffolk %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(3:34)) # First time frame & keep numeric data cols
-c.suffolk.2 <- scale(d.suffolk %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(3:34)) # Second time frame & keep numeric data cols
-
-# BERNALILLO COUNTY
-c.bernalillo.1 <- scale(d.bernalillo %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
-c.bernalillo.2 <- scale(d.bernalillo %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
-
-# DAVIDSON COUNTY
-c.davidson.1 <- scale(d.davidson %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
-c.davidson.2 <- scale(d.davidson %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
-
-# DOUGLAS COUNTY
-c.douglas.1 <- scale(d.douglas %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
-c.douglas.2 <- scale(d.douglas %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
-
-# EL PASO COUNTY
-c.elpaso.1 <- scale(d.elpaso %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36) %>% # First time frame & keep numeric data cols
-                       complete.cases())
-  
-c.elpaso.2 <- scale(d.elpaso %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36) %>% # Second time frame & keep numeric data cols
-                       complete.cases())
-                      
-# FRESNO COUNTY
-c.fresno.1 <- scale(d.fresno %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
-c.fresno.2 <- scale(d.fresno %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
-
-# HENNEPIN COUNTY
-c.hennepin.1 <- scale(d.hennepin %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
-c.hennepin.2 <- scale(d.hennepin %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
-
-# SAN FRANCISCO COUNTY
-c.sanfran.1 <- scale(d.sanfran %>%
-                       filter(Data.Measurement.Year == "1990-2000") %>%
-                       select(5:36)) # First time frame & keep numeric data cols
-c.sanfran.2 <- scale(d.sanfran %>%
-                       filter(Data.Measurement.Year == "2000-2010") %>%
-                       select(5:36)) # Second time frame & keep numeric data cols
 
 # Define UI for application that plots trends in city data (Boston, City1, ... ,
 #  Cityx) for comparison among features and between different cities -----------
@@ -137,9 +71,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                                      "Albuquerque, NM" = "abq"), # Bernalillo
                          selected = "boston"), # Default choice
       
-      br(),
       hr(),
-      br(),
       
       # Conditional panel - Select # of clusters -------------------------------
       conditionalPanel(condition = "input.selection == 'clustering'",
@@ -147,8 +79,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                                     label = "Select the number of clusters:",
                                     choices = list("2" = 2, 
                                                    "3" = 3, 
-                                                   "4" = 4, 
-                                                   "5" = 5),
+                                                   "4" = 4),
                                     selected = 2)),
       
       # Conditional panel - Select type of EDA ---------------------------------
@@ -157,7 +88,13 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                                     label = "Select the type of EDA you would like to complete:",
                                     choices = list("Distribution of Tract Labels by City" = "tract", 
                                                    "Household Ownsership over Time" = "race"),
-                                    selected = "tract"))
+                                    selected = "tract")),
+      
+      # Conditional panel - Choose to show data? -------------------------------
+      conditionalPanel(condition = "input.selection == 'eda' & input.type == 'tract'",
+                       checkboxInput(inputId = "showdata",
+                                     label = "Show Data",
+                                     value = FALSE))
       
     ),
     
@@ -165,7 +102,11 @@ ui <- fluidPage(theme = shinytheme("lumen"),
       
       br(),
       
-      plotOutput(outputId = "mainplot")
+      plotOutput(outputId = "mainplot"),
+      
+      br(),
+      
+      DT::dataTableOutput(outputId = "labeltable")
 
     )
     
@@ -246,72 +187,6 @@ server <- function(input, output) {
   })
   
   
-  
-  # REACTIVE CITY SELECTOR (clustering -- there will be TWO reactive variables for each timeframe):
-  clusdata1 <- reactive({
-    
-    req(input$city)
-    l <- list()
-    
-    # Iterate through the number of chosen cities ( = length of the list)
-    for (i in 1:length(input$city)) {
-      
-      # Add each city's dataset to the list
-      if (input$city[i] == "boston") {
-        l[[i]] <- c.suffolk.1
-      } else if (input$city[i] == "abq") {
-        l[[i]] <- c.bernalillo.1
-      } else if (input$city[i] == "elpaso") {
-        l[[i]] <- c.elpaso.1
-      } else if (input$city[i] == "fresno") {
-        l[[i]] <- c.fresno.1
-      } else if (input$city[i] == "sanfran") {
-        l[[i]] <- c.sanfran.1
-      } else if (input$city[i] == "omaha") {
-        l[[i]] <- c.douglas.1
-      } else if (input$city[i] == "nashville") {
-        l[[i]] <- c.davidson.1
-      } else if (input$city[i] == "minneapolis") {
-        l[[i]] <- c.hennepin.1
-      }
-      
-    }
-    
-    l
-    
-  })
-  clusdata2 <- reactive({
-    
-    req(input$city)
-    l <- list()
-    
-    # Iterate through the number of chosen cities ( = length of the list)
-    for (i in 1:length(input$city)) {
-      
-      # Add each city's dataset to the list
-      if (input$city[i] == "boston") {
-        l[[i]] <- c.suffolk.2
-      } else if (input$city[i] == "abq") {
-        l[[i]] <- c.bernalillo.2
-      } else if (input$city[i] == "elpaso") {
-        l[[i]] <- c.elpaso.2
-      } else if (input$city[i] == "fresno") {
-        l[[i]] <- c.fresno.2
-      } else if (input$city[i] == "sanfran") {
-        l[[i]] <- c.sanfran.2
-      } else if (input$city[i] == "omaha") {
-        l[[i]] <- c.douglas.2
-      } else if (input$city[i] == "nashville") {
-        l[[i]] <- c.davidson.2
-      } else if (input$city[i] == "minneapolis") {
-        l[[i]] <- c.hennepin.2
-      }
-      
-    }
-    
-    l
-    
-  })
   numclusters <- reactive({
     
     req(input$k)
@@ -325,6 +200,9 @@ server <- function(input, output) {
   output$mainplot <- renderPlot({ 
     
     if (input$selection == "null") {
+      
+      # Connect to Google APIs with your key:
+      ggmap::register_google(key = "YOUR KEY HERE")
       
       locations <- data.frame(nrow = 8, ncol = 2)
       locations[1,] <- geocode("Boston, Massachusetts", source = "google")
@@ -346,7 +224,8 @@ server <- function(input, output) {
                    size = 4, color = "brown3") +
         theme(axis.title = element_blank(), axis.line = element_blank(), axis.ticks = element_blank(),
               axis.text = element_blank(), plot.background = element_blank(),
-              panel.grid = element_blank(), panel.background = element_blank())
+              panel.grid = element_blank(), panel.background = element_blank()) +
+        coord_fixed(ratio = 1.5)
       
       
       
@@ -379,11 +258,11 @@ server <- function(input, output) {
         
         if (input$type == "tract") {
         
-          df <- datalist()[[i]]
-          
+          df <- datalist()[[i]] %>% na.omit()
+
           p <- ggplot(df) +
-            # THE PLOTTED VARIABLE WILL BE REPLACED BY GENTRIFICATION LABELS ONCE DONE:
-            geom_bar(aes(x = Data.Measurement.Year)) + #, fill = Gent_Label)) +  
+            geom_bar(aes(x = Gent_Label, fill = Gent_Label)) +  
+            scale_fill_manual(values = c("darkslategray3", "goldenrod2", "darkseagreen4")) +
             labs(title = name, x = "Gentrification Label", y = "Count") +
             theme(plot.title = element_text(hjust = 0.5, size = 12),
                   legend.position = "none")
@@ -403,13 +282,11 @@ server <- function(input, output) {
               ) %>%
             melt(id.vars = "Data Measurement Year", measure.vars = c("White Owner", "Non-White Owner"))
           
-          print(head(df_new))
-          
-          p <- ggplot(df_new, aes(x = `Data Measurement Year`, y = value, fill = variable)) +
+          p <- ggplot(df_new, aes(x = `Data Measurement Year`, y = value, fill = as.factor(variable))) +
             geom_bar(stat = "identity", position = "dodge") +
+            scale_fill_manual("Race of Owner", values = c("darkslategray3", "darkseagreen4")) +
             labs(title = name, y = "Count") +
-            theme(plot.title = element_text(hjust = 0.5, size = 12),
-                  legend.position = "none")
+            theme(plot.title = element_text(hjust = 0.6, size = 12))
 
         }
   
@@ -419,10 +296,8 @@ server <- function(input, output) {
       }
       
       
-      # ARRANGING THE GRIDS
-      # The only thing I need to fix here is making the top label larger than the plot title:
-      
-      if (input$city == "tract") {
+      # ARRANGING THE GRIDS:
+      if (input$type == "tract") {
         do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
                                   top = "Gentrification Labels for City Census Tracts"))
       } else if (input$type == "race") {
@@ -435,97 +310,83 @@ server <- function(input, output) {
       
     } else if (input$selection == "clustering"){
         
-        # Grab the lat/long for each census tract in the US:
-        tracts <- read_csv("data/tracts_geography.csv")
-        
         plots <- list()
-        set.seed(1)
-        
+
+        k = numclusters()
+
         # Iterate through the cluster datasets for each chosen city:
-        for (i in 1:length(clusdata1())) {
+        for (i in 1:length(datalist())) {
           
-          df1 <- as.data.frame(clusdata1()[[i]])
-          df2 <- as.data.frame(clusdata2()[[i]])
-          
-          # Update 01 DECEMBER: the code has no problems with more than 2 clusters,
-          # the issue seems to be with getting k from numclusters():
-          kmeans1 <- kmeans(df1, centers = 3, nstart = 25)
-          kmeans2 <- kmeans(df2, centers = 3, nstart = 25)
-          
+          new <- datalist()[[i]] 
+          new <- do.call(data.frame, lapply(new, function(x) replace(x, is.infinite(x), 0)))
+          #new[,4:35] <- sapply(new[,4:35], as.numeric)
+
+          df <- new[,4:35] %>% scale()
+
           # Get city-specific data
           if (input$city[i] == "boston") {
             t <- tracts[grepl("^25025", tracts$GEOID), ] # Keep tracts that begin w/ FIPS code
             fips <- 25025
-            fulldata <- d.suffolk
             code <- "Boston, Massachusetts"
           } else if (input$city[i] == "abq") {
             t <- tracts[grepl("^35001", tracts$GEOID), ]
             fips <- 35001
-            fulldata <- d.bernalillo
             code <- "Albuquerque, New Mexico"
           } else if (input$city[i] == "elpaso") {
             t <- tracts[grepl("^48141", tracts$GEOID), ]
             fips <- 48141
-            fulldata <- d.elpaso
             code <- "El Paso, Texas"
           } else if (input$city[i] == "fresno") {
             t <- tracts[grepl("^06019", tracts$GEOID), ]
             fips <- 06019
-            fulldata <- d.fresno
             code <- "Fresno, California"
           } else if (input$city[i] == "sanfran") {
             t <- tracts[grepl("^06075", tracts$GEOID), ]
             fips <- 06075
-            fulldata <- d.sanfran
             code <- "San Francisco, California"
           } else if (input$city[i] == "omaha") {
             t <- tracts[grepl("^08035", tracts$GEOID), ]
             fips <- 08035
-            fulldata <- d.douglas
             code <- "Omaha, Nebraska"
           } else if (input$city[i] == "nashville") {
             t <- tracts[grepl("^47037", tracts$GEOID), ]
             fips <- 47037
-            fulldata <- d.davidson
             code <- "Nashville, Tennessee"
           } else if (input$city[i] == "minneapolis") {
             t <- tracts[grepl("^27053", tracts$GEOID), ]
             fips <- 27053
-            fulldata <- d.hennepin
             code <- "Minneapolis, Minnesota"
-          }
+          } 
+          
+          km <- kmeans(df, centers = k, nstart = 25)
+          
+          print(any(!is.finite(df)))
+          print(new[1:5,1:5])
+          #print(any(!is.finite(new)))
           
           # Get full FIPS code
-          fulldata$GEOID <- as.numeric(paste(fips, 
-                                             sprintf("%06d", fulldata$Census.Tract.Code),
-                                             sep = ""))
+          new$GEOID <- as.numeric(paste(fips, 
+                                       sprintf("%06d", new$Census.Tract.Code), sep = ""))
           
           # Join datasets on GEOID
-          geo <- fulldata %>% left_join(t) %>% as.data.frame() 
-          # Add cluster assignments from k-means
-          geo$Cluster90.00 <- kmeans1$cluster
-          geo$Cluster00.10 <- kmeans2$cluster
+          geo <- new %>% left_join(t) %>% as.data.frame() 
           
-          # Connect to Google APIs with your key:
-          ggmap::register_google(key = "YOUR KEY HERE")
+          # Add cluster assignments from k-means
+          geo$Cluster <- km$cluster
+          #geo$Cluster00.10 <- kmeans2$cluster
+          #print(geo[1:5,-8])
           
           # Determine the coordinates of the city:
           center <- geocode(code, source = "google")
           
-          p1 <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12) +
+          p <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12) + 
             geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
-                                       color = as.factor(geo$Cluster90.00), size = 2)) +
-            #scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
+                                       color = as.factor(geo$Cluster), size = 2)) +
+            # geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT,
+            #                            color = as.factor(geo$Cluster00.10), size = 2)) +
             scale_size(guide = 'none') +
-            labs(title = code, color = "Cluster") 
-          p2 <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12) +
-            geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
-                                       color = as.factor(geo$Cluster00.10), size = 2)) +
-            #scale_color_manual(breaks = c("1", "2"), values = c("darkgoldenrod1", "darkorchid4")) +
-            scale_size(guide = 'none') +
-            labs(color = "Cluster")
-          
-          p <- grid.arrange(p1, p2, ncol = 2)
+            labs(title = code, color = "Cluster") + 
+            facet_wrap(~ Data.Measurement.Year)
           
           plots[[i]] <- p
           plot(plots[[i]])
@@ -540,9 +401,34 @@ server <- function(input, output) {
       
   })
   
+  output$labeltable <- DT::renderDataTable({
+    if(input$showdata){
+      
+      City <- c("Boston, MA", "El Paso, TX", "Omaha, NE", "Albuquerque, NM", "Fresno, CA", 
+                "San Francisco, CA", "Nashville, TN", "Minneapolis, MN")
+      Ineligible <- c(sum(d.suffolk$Gent_Label == "Ineligible"), sum(d.elpaso$Gent_Label == "Ineligible"),
+                     sum(d.douglas$Gent_Label == "Ineligible"),sum(d.bernalillo$Gent_Label == "Ineligible"),
+                     sum(d.fresno$Gent_Label == "Ineligible"), sum(d.sanfran$Gent_Label == "Ineligible"), 
+                     sum(d.davidson$Gent_Label == "Ineligible"), sum(d.hennepin$Gent_Label == "Ineligible"))
+      Eligible <- c(sum(d.suffolk$Gent_Label == "Eligible"), sum(d.elpaso$Gent_Label == "Eligible"),
+                    sum(d.douglas$Gent_Label == "Eligible"),sum(d.bernalillo$Gent_Label == "Eligible"),
+                    sum(d.fresno$Gent_Label == "Eligible"), sum(d.sanfran$Gent_Label == "Eligible"), 
+                    sum(d.davidson$Gent_Label == "Eligible"), sum(d.hennepin$Gent_Label == "Eligible"))
+      Gentrified <- c(sum(d.suffolk$Gent_Label == "Gentrified"), sum(d.elpaso$Gent_Label == "Gentrified"),
+                      sum(d.douglas$Gent_Label == "Gentrified"),sum(d.bernalillo$Gent_Label == "Gentrified"),
+                      sum(d.fresno$Gent_Label == "Gentrified"), sum(d.sanfran$Gent_Label == "Gentrified"), 
+                      sum(d.davidson$Gent_Label == "Gentrified"), sum(d.hennepin$Gent_Label == "Gentrified"))
+      
+      DT::datatable(data = data.frame(City, Ineligible, Eligible, Gentrified), 
+                    options = list(pageLength = 5), 
+                    rownames = FALSE)
+    }
+    
+  })
+  
 }
   
-  
+
   
 
 
