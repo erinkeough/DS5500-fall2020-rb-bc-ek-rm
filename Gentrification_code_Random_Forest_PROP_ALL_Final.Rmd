@@ -1,0 +1,203 @@
+---
+title: "DS500_Gentrification_Prop_all_randomForest_FINAL"
+output: html_notebook
+---
+
+```{r}
+require(tidyverse)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(randomForest)
+library(ROCR)
+library(plotly)
+library(Hmisc)
+library(caret)
+library(readr)
+library(ggplot2)
+library(ggcorrplot)
+
+```
+
+```{r}
+
+Master_Prop_Data1<- read_csv(url("https://raw.githubusercontent.com/erinkeough/DS5500-fall2020-rb-bc-ek-rm/master/Master_Prop_Data.csv")) %>% select(-1)
+
+dataset<-Master_Prop_Data[,-1]
+
+# Observation summary by label and cities
+Master_Prop_Data %>% 
+  group_by(City, label) %>% 
+  summarise(number=n()) %>% 
+  pivot_wider(names_from=label, values_from=number) %>% 
+  adorn_totals() %>% rowwise() %>%  
+  mutate(City_Total=sum(eligible+gentrified))
+
+```
+
+```{r Random Forest 1}
+
+set.seed(42)
+
+rf_all <-randomForest(label~.,data=Master_Prop_Data[,-1], ntree=500)
+
+print(rf_all)
+
+acuracy<-(rf_all$confusion[1,1]+rf_all$confusion[2,2])/(sum(rf_all$confusion[1:2,1:2]))
+acuracy
+
+sensitivity<-(rf_all$confusion[2,2])/(sum(rf_all$confusion[2,1:2]))
+sensitivity  
+  
+  
+precision<- (rf_all$confusion[2,2])/(sum(rf_all$confusion[1:2,2]))
+precision
+```
+
+
+
+```{r Mtry tuning}
+
+ # default number of variables selected at each tree which is 5 
+mtry <- sqrt(ncol(dataset)) #5
+
+# confirming that mtry=5 generates the lowest oob error
+set.seed(42)
+mtry<- tuneRF(dataset[-1],dataset$label, ntreeTry=500,
+               stepFactor=1.5,improve=0.01, trace=TRUE, plot=T)
+
+print(mtry)
+
+
+best.m <- mtry[mtry[,2] == min(mtry[, 2]), 1] #selecting the mtry (5) which gives the lowest out of Out-of-Bag Error.
+
+print(best.m)  #5 # confirmed
+```
+
+
+```{r ntree tuning}
+
+modellist <- c()
+
+#train with different ntree parameters
+
+for (ntree in c(500,1000,1500,2000,2500)){
+  set.seed(42)
+  fit <- randomForest(label~.,data=dataset, 
+                  mtry=best.m, 
+                  importance=TRUE, 
+                  ntree=ntree,
+                  sampsize=c("eligible"=140, "gentrified"=70), #each tree will be built with 210 observations, 70 gentrified and 140 eligible.
+                  strata = as.factor(dataset$label),
+                  keep.inbag= TRUE,
+                  na.action=na.roughfix)
+  
+  acuracy<-(fit$confusion[1,1]+fit$confusion[2,2])/(sum(fit$confusion[1:2,1:2]))
+  
+ modellist<-rbind(modellist, c(ntree, acuracy))
+}
+
+#Compare results
+print(modellist) # 1500 trees gives high accuracy
+
+ggplot(as.data.frame(modellist), aes(x=as.data.frame(modellist)[,1], y=as.data.frame(modellist)[,2]))+
+  geom_line(size=1)+
+  labs (y="Accuracy", x="number of trees", title="Accuracy by Number of Trees") + 
+  ylim (min(modellist[,2]), max(modellist[,2]))+
+  theme_bw()+
+  theme(axis.text = element_text(face="bold", size=12))
+
+```
+
+```{r Random Forest 2}
+
+# BUilding a new random forest model based on the learnings above: ntree=1500 and mtry=5
+
+rf_all<-randomForest(label~.,data=dataset, 
+                  mtry=best.m, 
+                  importance=TRUE, 
+                  ntree=ntree,
+                  sampsize=c("eligible"=140, "gentrified"=70), #each tree will be built with 210 observations, 70 gentrified and 140 eligible.
+                  strata = as.factor(dataset$label),
+                  keep.inbag= TRUE,
+                  na.action=na.roughfix)
+
+print(rf_all)
+
+rf_all$confusion
+
+acuracy<-(rf_all$confusion[1,1]+rf_all$confusion[2,2])/(sum(rf_all$confusion[1:2,1:2]))
+acuracy
+
+sensitivity<-(rf_all$confusion[2,2])/(sum(rf_all$confusion[2,1:2]))
+sensitivity  
+  
+  
+precision<- (rf_all$confusion[2,2])/(sum(rf_all$confusion[1:2,2]))
+precision
+
+```
+
+
+
+
+```{r Evaluating results}
+
+#Evaluate variable importance
+
+importance<-as.data.frame(importance(rf_all))
+
+importance <-arrange(importance, MeanDecreaseAccuracy)
+
+importance(rf_all)[1:10,]
+
+#varImpPlot(rf_all) #commented out because it is not pretty due to long lost of variables
+
+#varImpPlot(rf_all, sort=TRUE, n.var=min(15), type=NULL, class=NULL, scale=TRUE) # here we can tell how many variable to plot based on the importance
+
+
+#_____________
+#_____________
+
+#ROC
+
+pred1=predict(rf_all,type = "prob")
+
+
+#library(ROCR)
+
+perf_all = prediction(pred1[,2], (Master_Prop_Data$label))
+
+# 1. Area under curve
+auc<- performance(perf_all, "auc")
+auc
+
+# 2. True Positive and Negative Rate
+pred3 = performance(perf_all, "tpr","fpr")
+
+# 3. Plot the ROC curve
+plot(pred3,main="ROC Curve for Random Forest",col=2,lwd=2)
+abline(a=0,b=1,lwd=2,lty=2,col="gray")
+
+
+
+```
+
+```{r checking for variable correlation}
+
+
+# Correlation matrix
+
+corr <- round(cor(dataset[,-1]), 1)
+
+# Plot
+ggcorrplot(corr, hc.order = TRUE, 
+           type = "lower", 
+           lab = TRUE, 
+           lab_size = 3, 
+           method="circle", 
+           colors = c("tomato2", "white", "springgreen3"), 
+           title="Correlogram of mtcars", 
+           ggtheme=theme_bw)
+```
+
