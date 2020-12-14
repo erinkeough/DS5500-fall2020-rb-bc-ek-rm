@@ -25,17 +25,20 @@ library(ggmap)
 ```{r}
 
 # Load labeled proportion of change data
-bos <- read_csv("census-csv/prop_change_suffolk_unlabeled.csv")
-bosk <- as.numeric(scale(bos %>% select(5:36)))
-bos90 <- read_csv("census-csv/prop_change_suffolk_labeled.csv") %>% 
-                filter(Data.Measurement.Year == "1990-2000")
-bos00 <- read_csv("census-csv/prop_change_suffolk_labeled.csv") %>% 
-                filter(Data.Measurement.Year == "2000-2010")
+bos <- read_csv("Shiny App/data/prop_change_sanfrancisco_labeled.csv")
+bosk <- scale(bos %>% select(4:35)) %>% as.data.frame()
+# bos90 <- read_csv("census-csv/prop_change_suffolk_labeled.csv") %>% 
+#                 filter(Data.Measurement.Year == "1990-2000")
+# bos00 <- read_csv("census-csv/prop_change_suffolk_labeled.csv") %>% 
+#                 filter(Data.Measurement.Year == "2000-2010")
 #head(bos)
 
 # Select numeric data for 1990-2000 (1) & 2000-2010 (2):
-bos1 <- scale(bos90 %>% select(3:34))
-bos2 <- scale(bos00 %>% select(3:34))
+# bos1 <- scale(bos90 %>% select(3:34))
+# bos2 <- scale(bos00 %>% select(3:34))
+
+bosk[is.na(bosk)] <- 0
+bosk[!is.finite(as.numeric(bosk))] <- 0
 
 ```
 
@@ -121,12 +124,14 @@ grid.arrange(plot1, plot2, nrow = 1)
 
 ```{r message=FALSE, warning=FALSE}
 
+bosk2 <- kmeans(bosk, centers = 2, nstart = 25)
+
 # Read in Massachusetts data
 tractsMA <- read_csv("census-csv/tracts_geography.csv") %>% 
-  filter(USPS == "MA")
+  filter(USPS == "CA")
 
 # Keep only Suffolk County (FIPS: 25025)
-tracts <- tractsMA[grepl("^25025", tractsMA$GEOID), ]
+tracts <- tractsMA[grepl("^06075", tractsMA$GEOID), ]
 # Derive the GEOID from the tract codes
 bos90$GEOID <- as.numeric(paste(25025, 
                                   sprintf("%06d", bos90$Census.Tract.Code),
@@ -139,7 +144,7 @@ bos00$GEOID <- as.numeric(paste(25025,
                                   )
                             )
 
-bos$GEOID <- as.numeric(paste(25025, 
+bos$GEOID <- as.numeric(paste(06075, 
                                   sprintf("%06d", bos$Census.Tract.Code),
                                   sep = ""
                                   )

@@ -1,0 +1,10 @@
+name: shiny_app
+title:
+username:
+account: erin-keough
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3396197
+bundleId: 3984215
+url: https://erin-keough.shinyapps.io/shiny_app/
+when: 1607894302.47955

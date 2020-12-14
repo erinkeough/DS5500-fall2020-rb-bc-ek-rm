@@ -13,6 +13,7 @@ library(factoextra)
 library(ggmap)
 library(reshape2)
 library(purrr)
+library(maps)
 
 rm(list = ls())
 
@@ -20,7 +21,7 @@ rm(list = ls())
 # If running in RStudio Cloud:
 #setwd("/cloud/project/gentrification")
 # If running locally:
-setwd("~/GitHub/DS5500-fall2020-rb-bc-ek-rm/Shiny App")
+#setwd("~/GitHub/DS5500-fall2020-rb-bc-ek-rm/Shiny App")
 
 d.suffolk <- read_csv("data/prop_change_suffolk_labeled.csv")
 d.bernalillo <- read_csv("data/prop_change_bernalillo_labeled.csv")
@@ -87,8 +88,11 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                        selectInput(inputId = "type", 
                                     label = "Select the type of EDA you would like to complete:",
                                     choices = list("Distribution of Tract Labels by City" = "tract", 
-                                                   "Household Ownsership over Time" = "race"),
+                                                   "Household Ownsership over Time" = "race",
+                                                   "Change in Tract Age Composition" = "age"),
                                     selected = "tract")),
+      
+      br(),
       
       # Conditional panel - Choose to show data? -------------------------------
       conditionalPanel(condition = "input.selection == 'eda' & input.type == 'tract'",
@@ -286,8 +290,59 @@ server <- function(input, output) {
             geom_bar(stat = "identity", position = "dodge") +
             scale_fill_manual("Race of Owner", values = c("darkslategray3", "darkseagreen4")) +
             labs(title = name, y = "Count") +
-            theme(plot.title = element_text(hjust = 0.6, size = 12))
+            theme(plot.title = element_text(hjust = 0.5, size = 12))
 
+        } else if (input$type == "age") {
+          
+          df <- datalist()[[i]] %>% na.omit()
+          
+          df_new <- data.frame(`Data Measurement Year` = 
+                                 c("1990-2000","1990-2000","1990-2000","2000-2010","2000-2010","2000-2010"),
+                               `Gentrification Status` = 
+                                 c("Ineligible","Eligible","Gentrified","Ineligible","Eligible","Gentrified")
+                               )
+          df_new$Youth[1] <- mean(df$prop.change.population.under.18[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$Youth[2] <- mean(df$prop.change.population.under.18[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$Youth[3] <- mean(df$prop.change.population.under.18[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          df_new$Youth[4] <- mean(df$prop.change.population.under.18[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$Youth[5] <- mean(df$prop.change.population.under.18[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$Youth[6] <- mean(df$prop.change.population.under.18[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          
+          df_new$`Young Adult`[1] <- mean(df$prop.change.population.young.adult[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$`Young Adult`[2] <- mean(df$prop.change.population.young.adult[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$`Young Adult`[3] <- mean(df$prop.change.population.young.adult[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          df_new$`Young Adult`[4] <- mean(df$prop.change.population.young.adult[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$`Young Adult`[5] <- mean(df$prop.change.population.young.adult[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$`Young Adult`[6] <- mean(df$prop.change.population.young.adult[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          
+          df_new$`Middle Aged`[1] <- mean(df$prop.change.population.middle.aged[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$`Middle Aged`[2] <- mean(df$prop.change.population.middle.aged[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$`Middle Aged`[3] <- mean(df$prop.change.population.middle.aged[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          df_new$`Middle Aged`[4] <- mean(df$prop.change.population.middle.aged[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$`Middle Aged`[5] <- mean(df$prop.change.population.middle.aged[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$`Middle Aged`[6] <- mean(df$prop.change.population.middle.aged[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          
+          df_new$`Older Adult`[1] <- mean(df$prop.change.population.older.adulthood[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$`Older Adult`[2] <- mean(df$prop.change.population.older.adulthood[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$`Older Adult`[3] <- mean(df$prop.change.population.older.adulthood[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+          df_new$`Older Adult`[4] <- mean(df$prop.change.population.older.adulthood[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Ineligible"])
+          df_new$`Older Adult`[5] <- mean(df$prop.change.population.older.adulthood[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Eligible"])
+          df_new$`Older Adult`[6] <- mean(df$prop.change.population.older.adulthood[df$Data.Measurement.Year=="1990-2000" & df$Gent_Label=="Gentrified"])
+
+          df_new <- df_new %>%
+            melt(id.vars = c("Data.Measurement.Year", "Gentrification.Status"),
+                 measure.vars = c("Youth", "Young Adult", "Middle Aged", "Older Adult"))
+
+          p <- ggplot(df_new, aes(x = variable, y = value, 
+                                  fill = as.factor(Gentrification.Status))) +
+            geom_bar(stat = "identity", position = "dodge") +
+            scale_fill_manual("Gentrification Status",
+                              values = c("darkslategray3", "goldenrod2", "darkseagreen4")) +
+            labs(title = name, y = "Proportion of Change", x = "Age Range", 
+                 fill = "Gentrification Status") +
+            theme(plot.title = element_text(hjust = 0.5, size = 12)) +
+            facet_wrap(~Data.Measurement.Year)
+          
         }
   
         plots[[i]] <- p
@@ -303,6 +358,9 @@ server <- function(input, output) {
       } else if (input$type == "race") {
         do.call("grid.arrange", c(plots, nrow = ceiling(length(input$city) / 2),
                                   top = "White versus Non-White Household Ownership"))
+      } else if (input$type == "age") {
+        do.call("grid.arrange", c(plots, ncol = 1,
+                                  top = "Proportion of Change in Tract Age Composition by Year"))
       }
   
       
@@ -318,11 +376,23 @@ server <- function(input, output) {
         for (i in 1:length(datalist())) {
           
           new <- datalist()[[i]] 
+
+          # for (i in nrow(new)) {
+          #   for (j in ncol(new)) {
+          #     
+          #     ifelse(is.na(new[i, j]), 0, new[i, j])
+          #     ifelse(!is.finite(new[i, j]), 0, new[i, j])
+          #     
+          #   }
+          # }
           new <- do.call(data.frame, lapply(new, function(x) replace(x, is.infinite(x), 0)))
           #new[,4:35] <- sapply(new[,4:35], as.numeric)
 
           df <- new[,4:35] %>% scale()
-
+          df[is.na(df)] <- 0
+          df[!is.finite(df)] <- 0
+          #df <- ifelse(is.na(df), df[is.na(df)], 0, df)
+          
           # Get city-specific data
           if (input$city[i] == "boston") {
             t <- tracts[grepl("^25025", tracts$GEOID), ] # Keep tracts that begin w/ FIPS code
@@ -360,10 +430,6 @@ server <- function(input, output) {
           
           km <- kmeans(df, centers = k, nstart = 25)
           
-          print(any(!is.finite(df)))
-          print(new[1:5,1:5])
-          #print(any(!is.finite(new)))
-          
           # Get full FIPS code
           new$GEOID <- as.numeric(paste(fips, 
                                        sprintf("%06d", new$Census.Tract.Code), sep = ""))
@@ -374,29 +440,30 @@ server <- function(input, output) {
           # Add cluster assignments from k-means
           geo$Cluster <- km$cluster
           #geo$Cluster00.10 <- kmeans2$cluster
-          #print(geo[1:5,-8])
-          
+
           # Determine the coordinates of the city:
           center <- geocode(code, source = "google")
           
-          p <- qmap(c(lon = center$lon, lat = center$lat), zoom = 12) + 
-            geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT, 
-                                       color = as.factor(geo$Cluster), size = 2)) +
-            # geom_point(data = geo, aes(x = INTPTLONG, y = INTPTLAT,
-            #                            color = as.factor(geo$Cluster00.10), size = 2)) +
+          p <- qmap(c(lon = center$lon, lat = center$lat)) + 
+            geom_point(data = geo[!is.na(geo$Data.Measurement.Year),], 
+                       aes(x = INTPTLONG, y = INTPTLAT, 
+                                       color = as.factor(Cluster), size = 2)) +
             scale_size(guide = 'none') +
+            scale_x_continuous(limits = c(min(geo$INTPTLONG), max(geo$INTPTLONG))) +
+            scale_y_continuous(limits = c(min(geo$INTPTLAT), max(geo$INTPTLAT))) +
             labs(title = code, color = "Cluster") + 
             facet_wrap(~ Data.Measurement.Year)
-          
+
           plots[[i]] <- p
           plot(plots[[i]])
           
         }
         
         # The only thing I need to fix here is making the top label larger than the plot title:
-        do.call("grid.arrange", c(plots, ncol = 1,
-                                  top = "Cluster Assignments from 1990-2000 versus 2000-2010"))
-        
+        # do.call("grid.arrange", c(plots, ncol = 1,
+        #                           top = "Cluster Assignments from 1990-2000 versus 2000-2010"))
+        # 
+        plots
     }
       
   })
